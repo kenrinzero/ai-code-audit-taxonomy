@@ -1,5 +1,7 @@
 # AI Code Audit Taxonomy
 
+**[Browse the taxonomy site](https://kenrinzero.github.io/ai-code-audit-taxonomy/)**
+
 A curated taxonomy of **code defect patterns that AI assistants produce with distinctive frequency, form, or mechanism** in Python. Each entry documents the defective shape, explains *why* language models produce it, links to real-world incidents, and provides mechanical detection cues. The current release covers 24 patterns — the set where evidence met the inclusion rule, not a target count.
 
 The patterns are AI-amplified, not AI-exclusive. Most are ordinary defects — swallowed exceptions, off-by-one errors, missing timeouts — that human programmers also write. What makes them worth cataloging separately is that AI-generated code produces them at characteristic densities, in characteristic forms, and through mechanisms tied to how language models generate code. The honest claim is *AI-shaped*, not *AI-only*.
