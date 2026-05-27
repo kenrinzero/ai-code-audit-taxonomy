@@ -1,0 +1,91 @@
+site_name: AI Code Audit Taxonomy
+site_description: 24 AI-typical code defect patterns in Python — mechanism, evidence, detection cues
+site_url: https://kenrinzero.github.io/ai-code-audit-taxonomy
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.follow
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+  - admonition
+  - attr_list
+
+nav:
+  - Home: index.md
+  - Patterns:
+    - Error Handling:
+      - Swallowed Exceptions: taxonomy/patterns/swallowed-exceptions.md
+      - Inconsistent Error Handling: taxonomy/patterns/inconsistent-error-handling.md
+      - Brittle Error Detection: taxonomy/patterns/brittle-error-detection.md
+    - Security:
+      - String-Built SQL: taxonomy/patterns/string-built-sql.md
+      - Shell=True Subprocess Injection: taxonomy/patterns/shell-true-subprocess-injection.md
+      - Tarfile Extractall Without Filter: taxonomy/patterns/tarfile-extractall-without-filter.md
+    - Reliability:
+      - Missing Network Timeout: taxonomy/patterns/missing-network-timeout.md
+      - Resource Leak — No Context Manager: taxonomy/patterns/resource-leak-no-context-manager.md
+    - Async:
+      - Async-Await Mismatch: taxonomy/patterns/async-await-mismatch.md
+      - Sleep-Based Synchronization: taxonomy/patterns/sleep-based-synchronization.md
+    - Observability:
+      - Print Instead of Logging: taxonomy/patterns/print-instead-of-logging.md
+      - F-String in Logger Call: taxonomy/patterns/f-string-in-logger-call.md
+    - Control Flow:
+      - Off-by-One: taxonomy/patterns/off-by-one.md
+      - Swapped Args: taxonomy/patterns/swapped-args.md
+    - Structure:
+      - Near-Identical Siblings: taxonomy/patterns/near-identical-siblings.md
+      - Unjustified Lazy Import: taxonomy/patterns/unjustified-lazy-import.md
+    - Language Pitfall:
+      - Mutable Default Arguments: taxonomy/patterns/mutable-default-arguments.md
+      - Assert for Runtime Validation: taxonomy/patterns/assert-for-runtime-validation.md
+    - Configuration:
+      - Hardcoded Config Values: taxonomy/patterns/hardcoded-config-values.md
+    - Consistency:
+      - Convention Drift: taxonomy/patterns/convention-drift.md
+    - Documentation:
+      - Narrating Comments: taxonomy/patterns/narrating-comments.md
+    - Testing:
+      - Weak Test Assertion: taxonomy/patterns/weak-test-assertion.md
+    - Defensive Programming:
+      - Unreachable Defensive Guard: taxonomy/patterns/unreachable-defensive-guard.md
+    - Library Usage:
+      - Wrong Tool for Job: taxonomy/patterns/wrong-tool-for-job.md
+  - Cross-Cutting Notes:
+    - About These Notes: taxonomy/notes/README.md
+    - AI Pedagogical Bias: taxonomy/notes/ai-pedagogical-bias.md
+    - Same Project Knows Right Pattern: taxonomy/notes/same-project-knows-right-pattern.md
+    - Codified Guidance Is Insufficient: taxonomy/notes/codified-guidance-is-insufficient.md
+    - Surface Failure Modes Explicitly: taxonomy/notes/surface-failure-modes-explicitly.md
+    - Defensive Choice with Justifying Comment: taxonomy/notes/defensive-choice-with-justifying-comment.md
+    - Partial Fix Propagation: taxonomy/notes/partial-fix-propagation.md
