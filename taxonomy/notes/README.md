@@ -1,0 +1,40 @@
+# Cross-cutting notes
+
+The taxonomy entries in `taxonomy/patterns/` each describe a single AI-typical pattern with mechanism, evidence, and detection cues. Cross-cutting *observations* — patterns about how patterns relate, or mechanisms that span multiple entries — live here rather than in any single entry.
+
+These notes are not patterns themselves. They are not on the same shelf as the entries; they are the connecting threads between them. A note exists when the same observation has appeared in three or more entries' Notes sections and the observation deserves its own canonical place.
+
+## Current notes
+
+- [`ai-pedagogical-bias.md`](ai-pedagogical-bias.md) — the model defaults to patterns appropriate for tutorial/example code (narrating comments, print() for visible output, hardcoded values for clarity, missing timeouts on HTTP calls, f-strings for log messages, asserts for runtime validation) when the deployment context calls for the production alternatives. **Six entries.** Original promotion-trigger (5+ entries) met; elevated to primary mechanism-axis in README.
+- [`same-project-knows-right-pattern.md`](same-project-knows-right-pattern.md) — the same codebase uses the right pattern at one site and the wrong pattern at another. The model's prior at each generation context is independent enough to produce both choices. **Ten entries.** The partial-fix-propagation sub-shape was promoted to its own note ([`partial-fix-propagation.md`](partial-fix-propagation.md)) on 2026-05-25; this note retains the broader same-project-knows-right-pattern observation it sits inside.
+- [`codified-guidance-is-insufficient.md`](codified-guidance-is-insufficient.md) — projects with explicit conventions (CLAUDE.md, AGENTS.md, constraints.yaml, inline style guides, community lint rules) against specific AI-typical patterns continue to produce those patterns. The codification exists *because* of the pattern; it does not prevent the pattern. Enforcement (linters, CI checks) is the cure. **Fourteen+ entries.** Documents three forms of codification (project docs / community lint rules / within-codebase precedent).
+- [`surface-failure-modes-explicitly.md`](surface-failure-modes-explicitly.md) — four entries in the error-handling and defensive-programming family converge on a single piece of advice: surface failure modes through the type system, do not paper over them with defensive shapes that look like error handling but accomplish nothing. **Four entries.** The "typed-exception meta-family" or "fail-loud school" originally named in the swallowed-exceptions entry; now formalized.
+- [`defensive-choice-with-justifying-comment.md`](defensive-choice-with-justifying-comment.md) — defensive or uncertain choices are paired with comments that justify them via constraints that do not survive verification (`# Memory is optional`, `# Using TAG for Valkey compatibility`, `# hope discovery completes`). The comment narrates an intent the choice does not fulfill. **Nine+ entries** — now includes the *legitimate variant* (ProjectScylla `# noqa: SIM115` for streaming file handles) where the comment names a real constraint but the principled suppression becomes its own discipline-risk surface.
+- [`partial-fix-propagation.md`](partial-fix-propagation.md) — a prior fix-PR addressed *some* sites of an AI-typical pattern; sibling files / modules / call-sites that weren't in the PR's scope retain the wrong pattern. The PR's boundary becomes a new drift boundary inside the codebase. **Three entries** (f-string-in-logger-call, missing-network-timeout, async-await-mismatch). Promoted 2026-05-25 from the sub-shape inside same-project-knows-right-pattern.
+
+## When a note should land
+
+A cross-cutting note is justified when:
+
+- The same observation appears in three or more entries' Notes sections
+- The observation describes how patterns *relate* (shared mechanism, shared corpus bias, shared deployment-context blindness) rather than describing a distinct defect class
+- Readers benefit from one canonical statement rather than scattered mentions
+
+A cross-cutting note is *not* a placeholder for a future entry. If the observation has its own evidence, its own defect path, and its own cross-context specimens, it should be a real entry in `patterns/`. The defensive-choice-with-justifying-comment observation was considered for entry status and is documented here as a note instead because the defect in each instance is already covered by the entry it appears in; the meta-observation is about *how* defects are accompanied by comments, not about a defect class of its own.
+
+## Candidates for future notes
+
+Three observations are accumulating evidence and may justify their own notes if specimens continue to surface:
+
+- **Token-fluent-but-semantically-defective** — code that is locally plausible at the token level (right shape, right names, right types) but defective at the level of *what the function is doing*. Cleanest fits: [`off-by-one`](../patterns/off-by-one.md), [`swapped-args`](../patterns/swapped-args.md). Partial fits: [`swallowed-exceptions`](../patterns/swallowed-exceptions.md), [`mutable-default-arguments`](../patterns/mutable-default-arguments.md). At 2 cleanly + 2 partially. If a clean third surfaces (or the partial fits get reframed to demonstrate the mechanism more explicitly), consider promoting to a note. Structurally adjacent to [`surface-failure-modes-explicitly`](surface-failure-modes-explicitly.md) — both families describe "right shape, wrong substance" but at different layers.
+
+- **Deployment-context-blind defects** — a cluster of patterns whose defect path surfaces only in production deployment contexts (long-running services, agent tool surfaces, production servers) and is invisible in tutorial / test contexts. Includes [`missing-network-timeout`](../patterns/missing-network-timeout.md), [`assert-for-runtime-validation`](../patterns/assert-for-runtime-validation.md), [`resource-leak-no-context-manager`](../patterns/resource-leak-no-context-manager.md), [`async-await-mismatch`](../patterns/async-await-mismatch.md), [`print-instead-of-logging`](../patterns/print-instead-of-logging.md), [`f-string-in-logger-call`](../patterns/f-string-in-logger-call.md), and the agent-tool-surface variant of [`string-built-sql`](../patterns/string-built-sql.md). The cluster overlaps heavily with [`ai-pedagogical-bias`](ai-pedagogical-bias.md) — the model's tutorial-corpus inheritance lacks deployment-context-sensitivity. The cluster is currently observed as a *cross-cutting cluster of clusters* rather than a single mechanism note. If the unifying mechanism crystallizes (e.g., a clean way to name "model lacks deployment-context-sensitivity") it could merit its own note.
+
+- **Prompt-injection-induced defect class** — a defect that AI produces only when *steered* by adversarial project context (CONTRIBUTING.md / coding-standards files / CLAUDE.md poisoning), distinct from the corpus-fluency-driven default shape. Currently 1 specimen (Aider-AI/aider#5077 in [`string-built-sql`](../patterns/string-built-sql.md)). If a second specimen surfaces — particularly in another pattern (e.g., prompt-injection-induced swallowed-exceptions or hardcoded-config) — this could be a structurally important note about AI tool security boundaries.
+
+- **AI-on-AI defect discovery as an audit-framework class** — bot-authored audits (Cogtrix), AI-quality-pipelines (knowitcz/gen-ai-ops's Hledac → Oponent → Soudce), and AI-reviewers-in-PR (jparson2389/aetherflow's Copilot + Codex catching off-by-one) form a recognizable fourth shape of audit framework. Mentioned in [`evidence/README.md`](../../evidence/README.md) calibrated-audit-framework heuristic section. May merit consolidation as a cross-cutting note.
+
+## Style
+
+Notes are shorter than entries — 200-600 words is the norm. They name the observation, list which entries it appears in, sketch the underlying mechanism, and state implications. They do not have evidence-grades or category fields; those belong to entries.
