@@ -127,11 +127,11 @@ This pattern is **AI-amplified, not AI-exclusive**. Human developers reach for `
 
 ## Evidence / incident
 
-Three captured specimens at three different defect-severity levels. Specimens live in `evidence/github-issues/`.
+Three captured specimens at three different defect-severity levels. Detailed specimen notes are not included in the public repository.
 
-- **[oviney/economist-agents#334](https://github.com/oviney/economist-agents/issues/334)** — per-file generation drift with extreme density. `flow.py` has 51 `print()` calls and 0 `logger.` calls; sibling `stage3_runner.py` uses `logger` throughout. CI structured-log capture is broken. Multi-agent AI system project. Specimen: [oviney-economist-agents-334.md](../../evidence/github-issues/2026-05-15-oviney-economist-agents-334.md).
-- **[MarcusJellinghaus/mcp-tools-py#93](https://github.com/MarcusJellinghaus/mcp-tools-py/issues/93)** — print-in-MCP-server-stdout-context. ~15 print() statements in a pytest runner that ships as part of an MCP server (where stdout is the JSON-RPC transport channel). Currently shielded by STDIO isolation but architecturally fragile. The most defect-direct version of the pattern. Specimen: [MarcusJellinghaus-mcp-tools-py-93.md](../../evidence/github-issues/2026-05-15-MarcusJellinghaus-mcp-tools-py-93.md).
-- **[AlexFiliakov/Ergodic-Insurance-Limits#1188](https://github.com/AlexFiliakov/Ergodic-Insurance-Limits/issues/1188)** — logger-in-scope-but-not-used. `batch_processor.py` has `import logging` + `logger = logging.getLogger(__name__)` at module level AND 8+ `print()` calls in function bodies. Five related issues filed across the codebase for the same pattern in different files (#487, #980, #1060, #1062, #1188). Specimen: [AlexFiliakov-Ergodic-Insurance-Limits-1188.md](../../evidence/github-issues/2026-05-15-AlexFiliakov-Ergodic-Insurance-Limits-1188.md).
+- **[oviney/economist-agents#334](https://github.com/oviney/economist-agents/issues/334)** — per-file generation drift with extreme density. `flow.py` has 51 `print()` calls and 0 `logger.` calls; sibling `stage3_runner.py` uses `logger` throughout. CI structured-log capture is broken. Multi-agent AI system project.
+- **[MarcusJellinghaus/mcp-tools-py#93](https://github.com/MarcusJellinghaus/mcp-tools-py/issues/93)** — print-in-MCP-server-stdout-context. ~15 print() statements in a pytest runner that ships as part of an MCP server (where stdout is the JSON-RPC transport channel). Currently shielded by STDIO isolation but architecturally fragile. The most defect-direct version of the pattern.
+- **[AlexFiliakov/Ergodic-Insurance-Limits#1188](https://github.com/AlexFiliakov/Ergodic-Insurance-Limits/issues/1188)** — logger-in-scope-but-not-used. `batch_processor.py` has `import logging` + `logger = logging.getLogger(__name__)` at module level AND 8+ `print()` calls in function bodies. Five related issues filed across the codebase for the same pattern in different files (#487, #980, #1060, #1062, #1188).
 
 Three different defect surfaces (broken CI log capture, MCP protocol fragility, library leakiness), three different AI-related projects. Cross-context coverage is broad.
 

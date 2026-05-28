@@ -33,7 +33,7 @@ Three observations are accumulating evidence and may justify their own notes if 
 
 - **Prompt-injection-induced defect class** — a defect that AI produces only when *steered* by adversarial project context (CONTRIBUTING.md / coding-standards files / CLAUDE.md poisoning), distinct from the corpus-fluency-driven default shape. Currently 1 specimen (Aider-AI/aider#5077 in [`string-built-sql`](../patterns/string-built-sql.md)). If a second specimen surfaces — particularly in another pattern (e.g., prompt-injection-induced swallowed-exceptions or hardcoded-config) — this could be a structurally important note about AI tool security boundaries.
 
-- **AI-on-AI defect discovery as an audit-framework class** — bot-authored audits (Cogtrix), AI-quality-pipelines (knowitcz/gen-ai-ops's Hledac → Oponent → Soudce), and AI-reviewers-in-PR (jparson2389/aetherflow's Copilot + Codex catching off-by-one) form a recognizable fourth shape of audit framework. Mentioned in [`evidence/README.md`](../../evidence/README.md) calibrated-audit-framework heuristic section. May merit consolidation as a cross-cutting note.
+- **AI-on-AI defect discovery as an audit-framework class** — bot-authored audits (Cogtrix), AI-quality-pipelines (knowitcz/gen-ai-ops's Hledac → Oponent → Soudce), and AI-reviewers-in-PR (jparson2389/aetherflow's Copilot + Codex catching off-by-one) form a recognizable fourth shape of audit framework. Mentioned in the evidence methodology's calibrated-audit-framework heuristic section (not included in the public repository). May merit consolidation as a cross-cutting note.
 
 ## Style
 
