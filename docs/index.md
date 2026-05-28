@@ -101,7 +101,7 @@ The taxonomy's evidence base draws from three streams:
 
 1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
 2. **Community lint rules** (ruff, bandit, pylint, SonarCloud) that independently flag the same patterns — evidence that the broader Python community recognizes these as defect classes regardless of authorship.
-3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), \"AI-Generated Smells\" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
+3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), "AI-Generated Smells" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
 
 Evidence specimens referenced in entries link to the original GitHub issues. Local specimen files (detailed research notes) are not included in this repository.
 
@@ -109,8 +109,4 @@ Evidence specimens referenced in entries link to the original GitHub issues. Loc
 
 - **Zhu, Tsantalis & Rigby (2026):** [AI-Generated Smells: An Analysis of Code and Architecture in LLM- and Agent-Driven Development](https://arxiv.org/abs/2605.02741). Concordia University. Complementary scope: production-code structural smells via static analysis.
 - **Community lint ecosystems:** ruff, bandit, pylint, SonarCloud — the rules these tools enforce against many of the same patterns are cited throughout the entries.
-
-## License
-
-MIT — see [LICENSE](LICENSE).
 
