@@ -99,7 +99,7 @@ A pattern enters the taxonomy only if there is concrete evidence of a frequency 
 
 The taxonomy's evidence base draws from three streams:
 
-1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories (notably NousResearch/hermes-agent) contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
+1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
 2. **Community lint rules** (ruff, bandit, pylint, SonarCloud) that independently flag the same patterns — evidence that the broader Python community recognizes these as defect classes regardless of authorship.
 3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), "AI-Generated Smells" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
 
