@@ -170,7 +170,7 @@ The cure is rarely "delete and leave." Often it is "delete the comment and renam
 2. The frequency differential between AI and human-generated code is large (AI produces this at much higher density)
 3. The pattern is referenced explicitly in multiple AI-tell audits (aabtzu#48, the three specimens cited here), demonstrating community-level recognition
 
-Future entries may include patterns with similar "calibration tell" profiles. The project's design supports this: the framing is calibration training, not exclusively defect prevention.
+Patterns with similar "calibration tell" profiles fit the taxonomy's framing of calibration training rather than exclusively defect prevention.
 
 **The pattern is AI-amplified, not AI-exclusive.** Human developers write WHAT-comments, particularly in tutorial code, in code-for-novices, or when uncertain about naming. The AI-amplified claim rests on density and consistency: AI applies the pattern uniformly across functions where humans would not, and at line-by-line densities humans rarely reach.
 

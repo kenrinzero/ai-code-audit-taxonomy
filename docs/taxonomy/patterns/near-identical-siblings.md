@@ -103,9 +103,3 @@ The cue that distinguishes this pattern from intentional duplication: the siblin
 
 **Mutation operator hint.** A deterministic mutation that generates this pattern from clean code: take a loop over a small iterable, unroll it into N sequential blocks with one variable substituted in each, and rename any intermediate-state variable per iteration. This produces the AI-amplified form deterministically from a known clean form.
 
-**Related candidates still in evidence.** The hunt that produced this entry also surfaced two adjacent candidates that share a deeper mechanism (token-level prediction failing to induce structural relationships):
-
-- *Incomplete propagation of an interface change* — single-source cluster, cross-context test negative.
-- *Symptom suppression by magic-number substitution* — singleton from SWE-bench; same document.
-
-Neither is ready to draft as an entry. They are recorded for visibility, not for grouping with this entry.

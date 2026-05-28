@@ -88,4 +88,4 @@ The diagnostic question for any single assertion: *under what concrete change to
 
 **Mutation operator hint.** A deterministic mutation that takes a tight assertion and weakens it produces this pattern from clean code: replace `assert "Welcome, Alice!" in body` with `assert "welcome" in body.lower() or "alice" in body.lower()`; replace `assert count == 3` with `assert count >= 1`; replace `assert isinstance(result, User)` with `assert result`. These are useful primitives for mutation-testing tools.
 
-**Adjacent patterns.** Adjacent test-quality concerns may eventually deserve their own entries (e.g., tests with overly tolerant numeric tolerances, tests that mock the thing they intend to verify). They are tracked for visibility, not for inclusion under this entry.
+**Adjacent patterns.** Other test-quality concerns sit nearby — tests with overly tolerant numeric tolerances, tests that mock the thing they intend to verify. They share the same root mechanism (an assertion that looks like a check but cannot fail in practice) and are worth scanning for alongside this pattern.

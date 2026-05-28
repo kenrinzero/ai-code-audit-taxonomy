@@ -101,7 +101,7 @@ The diagnostic question for any single guard: *under what concrete call site wou
 
 These are useful primitives for mutation-testing tools. They are also easy to compose with `swallowed exceptions` — a `try/except: pass` block placed around code that cannot raise produces a related but distinct defect.
 
-**Adjacent patterns.** Related defensive-programming concerns may eventually deserve their own entries — for example, *silent default-return on invalid input* (the text-game specimen's adjacent issue #288 "EventResult sentinels and enforce fail-fast" addresses this). They are tracked for visibility, not for inclusion under this entry.
+**Adjacent patterns.** Related defensive-programming concerns sit nearby — for example, *silent default-return on invalid input* (addressed by the text-game specimen's adjacent issue #288, "EventResult sentinels and enforce fail-fast"). They share the same root mechanism of defensive shapes disconnected from purpose.
 
 **Connection to [`surface-failure-modes-explicitly`](../notes/surface-failure-modes-explicitly.md) note.** This entry is one of four members of the typed-exception meta-family, alongside [`inconsistent-error-handling`](inconsistent-error-handling.md), [`brittle-error-detection`](brittle-error-detection.md), and [`swallowed-exceptions`](swallowed-exceptions.md). All four converge on the advice: surface failure modes through the type system; document preconditions; fail loudly when invariants are violated. The note formalizes the convergence.
 
