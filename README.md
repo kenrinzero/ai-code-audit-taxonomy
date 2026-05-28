@@ -8,7 +8,7 @@ The patterns are AI-amplified, not AI-exclusive. Most are ordinary defects — s
 
 ## Why this exists
 
-AI coding assistants produce correct code most of the time. The difficult part is staying alert across hundreds of correct outputs and catching the broken one. Knowing what to look for helps.
+AI coding assistants produce correct code most of the time. The difficult part is staying alert across hundreds of correct outputs and catching the broken one. Knowing the characteristic shapes to watch for makes the difference.
 
 This taxonomy is a reference for anyone who reads AI-generated code: reviewers, auditors, developers using AI assistants, or teams building review workflows. It is organized around two questions:
 
@@ -19,7 +19,7 @@ Each entry also documents **false-positive shapes** — what looks like the patt
 
 ## How to use this
 
-**If you review AI-generated code:** scan the Detection cues sections. Most are grep-able (`except Exception: pass`, `requests.get(` without `timeout=`, `logger.info(f"`). Start with the entries rated `difficulty: low` — they have the highest signal-to-effort ratio.
+**If you review AI-generated code:** scan the Detection cues sections. Most are grep-able (`except Exception: pass`, `requests.get(` without `timeout=`, `logger.info(f\"`). Start with the entries rated `difficulty: low` — they have the highest signal-to-effort ratio.
 
 **If you build or configure AI coding tools:** the Mechanism sections explain *why* each pattern recurs. The cross-cutting note [codified-guidance-is-insufficient](docs/taxonomy/notes/codified-guidance-is-insufficient.md) documents why CLAUDE.md / AGENTS.md conventions alone don't prevent these — enforcement via lint rules and CI is the cure.
 
@@ -31,7 +31,7 @@ The Mechanism sections use a small vocabulary from how language models work. Thr
 
 **Token-level prediction.** A language model writes code one small piece at a time — roughly word-sized chunks called *tokens* — picking the most likely next token given what it has just produced. It commits as it goes; it does not draft a whole function and then refine.
 
-**The training corpus.** The body of text the model learned from: Stack Overflow answers, tutorials, GitHub repositories, documentation, blog posts. Shapes the corpus contains most often *per token* are the shapes the model produces most fluently. Under-represented shapes are under-produced even when they are the right answer for the situation.
+**The training corpus.** The body of text the model learned from: Stack Overflow answers, tutorials, GitHub repositories, documentation, blog posts. The shapes that occur most frequently per token in the training corpus are the ones the model produces most fluently. Under-represented shapes are under-produced even when they are the right answer for the situation.
 
 **Local attention.** The model decides each next token mostly from the surrounding code — recent lines, the current function signature, nearby imports — not by re-reading the whole file or project. Conventions documented elsewhere (style guides, lint rules, project docs) sit *outside* this local window unless they are explicitly pulled in.
 
@@ -101,7 +101,7 @@ The taxonomy's evidence base draws from three streams:
 
 1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
 2. **Community lint rules** (ruff, bandit, pylint, SonarCloud) that independently flag the same patterns — evidence that the broader Python community recognizes these as defect classes regardless of authorship.
-3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), "AI-Generated Smells" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
+3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), \"AI-Generated Smells\" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
 
 Evidence specimens referenced in entries link to the original GitHub issues. Local specimen files (detailed research notes) are not included in this repository.
 
