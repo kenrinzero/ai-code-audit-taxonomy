@@ -91,7 +91,7 @@ The cue that distinguishes this pattern from intentional duplication: the siblin
 
 ## Notes
 
-**Category placeholder.** This is the first entry in the taxonomy and `structure` is a new category not in the template's example list (`control-flow | error-handling | naming | async | regex | typing`). The category should be revisited when more entries land and the format strain becomes visible.
+**Category `structure`.**
 
 **The pattern is AI-amplified, not AI-exclusive.** Human-written code also produces unabstracted parallel logic — under time pressure, during early prototyping, or when the duplication is locally easier than the lift. The inclusion claim is that AI-generated code shows this with notable frequency and at notable scale (3 to 10 sibling structures is high for a single function or module). A taxonomy entry is not an accusation; it is a fluency aid.
 

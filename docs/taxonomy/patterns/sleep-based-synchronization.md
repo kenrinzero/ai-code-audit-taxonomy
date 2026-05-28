@@ -123,7 +123,7 @@ The diagnostic question for any candidate: *what condition is this code actually
 
 ## Notes
 
-**Category `async`** — new category from the template's example list (`control-flow | error-handling | naming | async | regex | typing`). First entry in this category. The fit is good for the captured specimens, which all involve async-context concerns even when the wrong primitive is technically synchronous (training-agent's `time.sleep` is wrong *because* the surrounding context is async-aware FastAPI). The category-revisit pending at a later threshold may decide whether `async` should expand to `concurrency` or `synchronization`.
+**Category `async`.** The fit is good for the captured specimens, which all involve async-context concerns even when the wrong primitive is technically synchronous (training-agent's `time.sleep` is wrong *because* the surrounding context is async-aware FastAPI).
 
 **Difficulty rated `medium`.** Spotting `time.sleep` or `await asyncio.sleep` is visually immediate. Knowing whether the sleep is appropriate (some sleeps are correct — backoff loops, deliberate pacing) or defective (sleep-as-synchronization, sleep-blocks-pool, polling-when-events-exist) requires context about the surrounding code's threading model and the system's available primitives. A reader who knows the project's stack can audit quickly; a reader who doesn't will see locally-valid code.
 

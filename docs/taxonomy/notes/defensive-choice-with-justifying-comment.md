@@ -55,7 +55,7 @@ The comment-as-justification shape is itself a calibration cue. When auditing AI
 This observation was considered for elevation to its own entry and is documented as a note instead because:
 
 - The *defect* in each instance is the underlying defensive choice (swallowed exception, hardcoded value, wrong tool), not the comment. The comment is a diagnostic *signal*, not a defect class.
-- The mechanism is *adjacent-generation-product*, which is also visible in narrating-comments and in the structural mechanism of how attention-based generation works. Promoting it to an entry would either duplicate narrating-comments or create a "comment-class" entry that doesn't fit the project's defect-focused framing.
+- The mechanism is *adjacent-generation-product*, which is also visible in narrating-comments and in the structural mechanism of how attention-based generation works. Promoting it to an entry would either duplicate narrating-comments or create a "comment-class" entry that doesn't fit the taxonomy's defect-focused framing.
 - The most useful framing of this observation is as a *reading-AI-generated-code* skill: when you see a comment justifying a defensive choice, treat the comment as a hypothesis to verify, not as evidence.
 
 ## Implications
@@ -71,6 +71,3 @@ For projects using AI-assisted development:
 - Code reviews can flag comments that justify rather than explain. "WHY-comments" should describe non-obvious constraints (correct); "JUSTIFY-comments" describe defensive intents (suspect).
 - Test cases that exercise the constraint named in the comment can catch the false-constraint case at CI rather than at audit.
 
-## Promotion criteria
-
-This observation appears in seven-plus entries. If an eighth distinct entry contributes new evidence of the pattern (a new sub-shape of comment-as-justification not currently captured), expand the table here. If the pattern becomes prominent enough to warrant being a primary diagnostic move (rather than a secondary observation), consider elevation to its own short pattern-entry — possibly named `comment-as-justification` — focused specifically on the comment-side surface.

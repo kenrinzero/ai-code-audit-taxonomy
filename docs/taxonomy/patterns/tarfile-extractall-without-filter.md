@@ -125,7 +125,7 @@ Bandit `B202` catches the pattern mechanically. Python 3.12+ also produces a run
 
 ## Notes
 
-**Category `security`.** Second entry in the `security` category (joining [`string-built-sql`](string-built-sql.md)). Both are CVE-class defects with widely-adopted lint rules (Bandit B202, B608) that AI-generated code reproduces despite ecosystem recognition.
+**Category `security`.** Both this entry and [`string-built-sql`](string-built-sql.md) are CVE-class defects with widely-adopted lint rules (Bandit B202, B608) that AI-generated code reproduces despite ecosystem recognition.
 
 **Difficulty rated `low`.** Spotting `extractall(...)` without `filter=` is visually trivial. Bandit B202 catches it mechanically. Python 3.12+ DeprecationWarning surfaces it at runtime. The reason this is in the taxonomy is *AI-amplification dimensions* (post-3.12 codebases still produce the pre-3.12 form) and *defect surface* (archive-extraction contexts in AI tooling).
 

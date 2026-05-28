@@ -156,11 +156,11 @@ The diagnostic question for any candidate: *who is going to read this output, an
 
 ## Notes
 
-**Category `observability`** — new category. Previous entries have used `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`, `library-usage`, `async`, `consistency`. The new category captures patterns about *how the program is observed in production*. Future entries about telemetry, metric exposure, tracing, or structured-error-context could fit here.
+**Category `observability`.** The category captures patterns about *how the program is observed in production*.
 
 **Difficulty rated `low`.** Spotting `print()` in code that should use `logging` is visually unambiguous — the keyword is right there. The harder step is knowing when print() is legitimate (CLI scripts, `if __name__ == "__main__":` blocks, pre-logger-initialization bootstrap output) vs when it is the pattern (library code, server code, agent code, MCP servers). The XRPLF false-positive case (test-utility with explicit debug flag) demonstrates the legitimate exception.
 
-**Pre-existing community recognition.** Python community guidance consistently warns against `print()` in production code in favor of `logging`. The PEP 8 style guide and most Python style references address this. The pattern is in the taxonomy because AI-generated code reproduces the anti-pattern despite the community guidance — another instance of the *codified-guidance-is-insufficient* observation now visible across the project's entries.
+**Pre-existing community recognition.** Python community guidance consistently warns against `print()` in production code in favor of `logging`. The PEP 8 style guide and most Python style references address this. The pattern is in the taxonomy because AI-generated code reproduces the anti-pattern despite the community guidance — another instance of the *codified-guidance-is-insufficient* observation now visible across the taxonomy's entries.
 
 **The pattern is AI-amplified, not AI-exclusive.** Human developers default to `print()` constantly, particularly during quick prototyping and debugging. The AI-amplified observation is the *consistency* with which AI-generated production code uses print() — and the *blindness to the deployment context* (MCP server stdout, library API surface, CI structured-log capture). Human developers usually transition from print() to logger over a project's lifetime; AI-generated codebases produce the pattern across many files as initial state.
 

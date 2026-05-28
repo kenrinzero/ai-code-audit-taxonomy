@@ -104,7 +104,7 @@ The diagnostic question for any candidate: *do the positions at the call site ma
 
 ## Notes
 
-**Category `control-flow`.** Second entry in this category, joining [`off-by-one`](off-by-one.md). The fit is imperfect — swapped-args is technically a defect at the function-call boundary, not strictly a control-flow concern. The closer category would be something like `function-call` or `interface`, but category refactoring is deferred until the taxonomy grows further. The `control-flow` umbrella is interpretable enough to cover "calling-convention defects" alongside iteration-and-indexing defects; the two patterns share the meta-theme of *token-fluent but semantically defective forms*. Worth revisiting at the category-refactor pass.
+**Category `control-flow`.** The fit is imperfect — swapped-args is technically a defect at the function-call boundary, not strictly a control-flow concern. The `control-flow` umbrella covers "calling-convention defects" alongside iteration-and-indexing defects; both share the meta-theme of *token-fluent but semantically defective forms*.
 
 **Difficulty rated `medium`.** The surface is universal — any positional-arg call could in principle have its args swapped. The defect is visible only when the reader checks the call site against the function signature. A reader who only reads the call site and trusts the variable names will not flag it. Once the reader knows the pattern, the diagnostic step is mechanical (jump to definition). Same difficulty rating as [`off-by-one`](off-by-one.md), with which this pattern shares the meta-mechanism.
 

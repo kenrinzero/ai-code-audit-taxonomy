@@ -80,7 +80,7 @@ The diagnostic question for any single guard: *under what concrete call site wou
 
 ## Notes
 
-**Category `defensive-programming` is new** for this taxonomy. The categories are emerging organically rather than being designed up front; the category list should be revisited as the taxonomy grows and format strain becomes visible.
+**Category `defensive-programming`.**
 
 **Difficulty rated `medium`.** Defensive programming is generally a virtue; spotting an *unnecessary* defensive guard requires tracing back to call sites and verifying invariants. A reader who only checks "is there an obvious bug here?" will not flag this pattern — the guard looks correct in isolation. Similar mental effort to weak-test-assertion.
 

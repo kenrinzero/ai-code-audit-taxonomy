@@ -91,7 +91,7 @@ The diagnostic question for any single lazy import: *why is this import inside t
 
 ## Notes
 
-**Category `structure`.** Lazy imports are a module-level structural concern (import topology, dependency graph). The fit is reasonable but not perfect — they also have a defensive-programming flavor (deferring a possible failure) that lines them up with [`unreachable-defensive-guard`](unreachable-defensive-guard.md). Existing categories so far: `structure` (near-identical-siblings, this entry), `testing` (weak-test-assertion), `defensive-programming` (unreachable-defensive-guard). The categories will be revisited as the taxonomy grows; this entry may move.
+**Category `structure`.** Lazy imports are a module-level structural concern (import topology, dependency graph). The fit is reasonable but not perfect — they also have a defensive-programming flavor (deferring a possible failure) that lines them up with [`unreachable-defensive-guard`](unreachable-defensive-guard.md).
 
 **Difficulty rated `low`.** The visual cue is unambiguous — an `import` keyword inside a function body is immediately visible. The diagnostic step (does a real circular dep exist?) is mechanical: try moving the import to the top and run the test suite. The reason this is not zero-effort is the false-positive cases below; a reader needs to know which lazy imports are legitimate.
 

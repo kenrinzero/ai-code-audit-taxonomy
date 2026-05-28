@@ -91,7 +91,7 @@ This pattern is **AI-amplified, not AI-exclusive**. Human Python programmers wri
 
 Three captured specimens covering distinct sub-shapes and AI-authorship signals. Detailed specimen notes are not included in the public repository.
 
-- **[digvijaysai29/agentic-insurance#1](https://github.com/digvijaysai29/agentic-insurance/issues/1)** — agent-tool-surface SQL injection in a Production-ready multi-agent insurance system. CLAUDE.md (1166 bytes); project description explicitly names *"built with LangGraph, FastAPI, and Claude"*. Affected files: `tools/policy_lookup.py`, `tools/claim_history.py`. Audit framework: "Corridor security analysis" (20th distinct framework). References CWE-89, OWASP A03:2021.
+- **[digvijaysai29/agentic-insurance#1](https://github.com/digvijaysai29/agentic-insurance/issues/1)** — agent-tool-surface SQL injection in a Production-ready multi-agent insurance system. CLAUDE.md (1166 bytes); project description explicitly names *"built with LangGraph, FastAPI, and Claude"*. Affected files: `tools/policy_lookup.py`, `tools/claim_history.py`. Audit framework: "Corridor security analysis" References CWE-89, OWASP A03:2021.
 - **[Aider-AI/aider#5077](https://github.com/Aider-AI/aider/issues/5077)** — prompt-injection-induced SQL injection. AI coding tool (Aider) rewrote safe parameterized SQL into unsafe f-string SQL after accepting attacker-supplied "team coding standard." Generalized the unsafe pattern to a new login function. Validated retest with `gpt-4o-mini` (whole-edit format). Captures the meta-shape: AI tools themselves are subvertable.
 - **[jackyideal/AlphaTeam](https://github.com/jackyideal/AlphaTeam)** — schema-blind three-channel f-string SQL. `AlphaFin/indicators/db_utils.py:41-62` interpolates `fields`, `table_name`, and `start_date` directly. Reproducible attack with `start_date = "20200101' OR 1=1 --"` returns unfiltered rows. HIGH severity. *AI-authorship of the underlying code is inferred (agent-tool-surface domain, future-driven framing) rather than confirmed.*
 
@@ -99,7 +99,7 @@ Three different sub-shapes (agent-tool-surface / prompt-injection-induced / sche
 
 Supplementary references:
 
-- **[Chaudhry-Adill/hrms#?](https://github.com/Chaudhry-Adill/hrms)** — CRITICAL SQL injection via f-string WHERE clause in helpdesk FAQ search. Fork of frappe/hrms with CLAUDE.md (5153 bytes). The values are parameterized but the WHERE-clause condition list is concatenated — a partial-defense shape.
+- **[Chaudhry-Adill/hrms](https://github.com/Chaudhry-Adill/hrms)** — CRITICAL SQL injection via f-string WHERE clause in helpdesk FAQ search. Fork of frappe/hrms with CLAUDE.md (5153 bytes). The values are parameterized but the WHERE-clause condition list is concatenated — a partial-defense shape.
 - **[BDB-Labs/TruePresenceESE](https://github.com/BDB-Labs/TruePresenceESE)** — "f-string SQL construction is a SQL injection vector" in `api/auth.py`. Audit-label-driven finding.
 - **[startreedata/mcp-pinot#90](https://github.com/startreedata/mcp-pinot/issues/90)** — Apache Pinot MCP server's `read_query` tool only validates `SELECT` prefix; raw SQL flows from MCP client to Pinot with weak input sanitization. Adjacent shape — *trust-boundary-too-wide* rather than f-string-construction.
 - **[laichunpongben/magi](https://github.com/laichunpongben/magi)** — SQL injection via f-string table/schema interpolation in `knowledge_base.py`. AI knowledge-base project.
@@ -124,7 +124,7 @@ Bandit `B608` catches the pattern mechanically. Adding it to CI is the structura
 
 ## Notes
 
-**Category `security`** — new category. Previous entries have covered surfaces where defects produce reliability / consistency / observability failures; this is the first entry where defects produce *security* failures (data exfiltration, data destruction, authentication bypass). Future entries about `pickle` of untrusted data, `eval` / `exec`, weak cryptographic primitives, or unsafe deserialization could fit here.
+**Category `security`.** The category covers patterns where defects produce *security* failures (data exfiltration, data destruction, authentication bypass).
 
 **Difficulty rated `low`.** Spotting `f"..."` inside `cursor.execute(...)` is visually trivial. Bandit B608 catches it mechanically. The reason this is in the taxonomy is *defect surface* (agent-tool-surface concentration) and *AI-meta-shape* (prompt-injection-induced rewrite), not difficulty. Once a reader knows to look at SQL-touching code in agent tools, the audit is mechanical.
 

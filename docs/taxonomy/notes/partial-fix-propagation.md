@@ -2,7 +2,7 @@
 
 A prior fix-PR addressed *some* sites of an AI-typical pattern; sibling files, modules, or call-sites that weren't in the PR's scope retain the wrong pattern. The PR's boundary becomes a new drift boundary inside the codebase.
 
-This is structurally a sub-shape of [`same-project-knows-right-pattern`](same-project-knows-right-pattern.md) — the right pattern lives in the codebase, at exactly the sites the prior fix touched — but it has its own AI-vs-human differential and its own audit move, which is why it earns a standalone note now that three specimens are in evidence across three distinct entries.
+This is structurally a sub-shape of [`same-project-knows-right-pattern`](same-project-knows-right-pattern.md) — the right pattern lives in the codebase, at exactly the sites the prior fix touched — but it has its own AI-vs-human differential and its own audit move, documented here with three specimens across three distinct entries.
 
 ## Where the observation appears
 
@@ -42,8 +42,3 @@ The defect at each residual site is whatever the underlying pattern is — `f-st
 
 The note exists to name the meta-shape and the audit move it enables.
 
-## Promotion criteria
-
-This observation was tracked as a candidate inside [`same-project-knows-right-pattern`](same-project-knows-right-pattern.md). The promotion-trigger (3 specimens across distinct entries) was reached when the coachiq PR A6 specimen landed alongside the IBM and dagster ones. Standalone-note status promoted 2026-05-25.
-
-If a fourth specimen surfaces that adds a new shape to the family (a fix-PR explicitly scoped to a single site with overlooked siblings; a fix-PR that propagated *some* but not *all* of a multi-component pattern; a fix-PR whose scope was correct but whose sibling-residue surfaces a compound downstream defect different from coachiq's Pydantic-vs-dict shape), expand the table here.

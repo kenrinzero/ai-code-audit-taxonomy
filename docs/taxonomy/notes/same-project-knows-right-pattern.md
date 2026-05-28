@@ -76,16 +76,8 @@ For projects using AI-assisted development:
 - Code-review checklists that include "is this pattern consistent with how it's used elsewhere?" elevate this audit step
 - When fixing a pattern at one site, mechanically grep the codebase for sibling instances and fix them all in one PR
 
-For the calibration training:
+For readers learning to audit AI-generated code:
 
 - This observation is at the core of how AI-generated code differs from human-written code structurally
-- Drills that show two code sites and ask "do these agree?" train the diagnostic skill directly
-- With 9+ entries demonstrating the observation, the calibration value is high — readers who internalize this single check will catch a large fraction of AI-typical drift
-
-## Promotion criteria
-
-This observation has been documented in nine entries and is robust enough that elevation to a top-level taxonomy concept is now justified at the eventual category-revisit. The mechanism (local-fluency-without-global-consistency) is more fundamental than any individual entry. A future restructuring could organize the taxonomy partly by mechanism (this being one) and partly by surface.
-
-For now, it lives as a note. If a tenth entry demonstrates the observation on a new surface, this note should be expanded.
-
-The partial-fix-propagation sub-shape — once tracked here as a candidate for standalone-note promotion — was promoted on 2026-05-25 after the coachiq PR A6 specimen brought the count to three. It now lives at [`partial-fix-propagation`](partial-fix-propagation.md). This note retains the broader same-project-knows-right-pattern observation it sits inside.
+- Comparing two code sites and asking "do these agree?" trains the diagnostic skill directly
+- With 10 entries demonstrating the observation, the diagnostic value is high — readers who internalize this single check will catch a large fraction of AI-typical drift

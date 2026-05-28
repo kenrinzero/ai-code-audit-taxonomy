@@ -75,19 +75,19 @@ For projects using AI-assisted development:
 - The aabtzu/CLAUDE.md, Mzzkc/constraints.yaml, StefanBS/CLAUDE.md, IBM AGENTS.md patterns are all admirable in intent and observably insufficient in effect. The projects that codified the rule *also* hit the rule's violation in production code.
 - Run new codemods + linter additions *together* — codify the rule, fix the existing violations, add the lint check in CI. The IBM specimen's proposed remediation captures this three-step shape exactly.
 
-For the project's calibration training:
+For readers learning to audit AI-generated code:
 
 - A reader who sees a project with a documented convention should expect AI-generated code in that project to *partially* follow the convention — most generated code agrees with the convention, but drift sites exist
 - The cross-cutting observation reinforces that AI-generated code is *not* well-served by reading the project's documentation as a substitute for reading the code
 
-## Promotion criteria
+## Why this is a note, not an entry
 
-The observation appears in 10+ entries and is robust. It is documented as a note rather than as an entry because the underlying defect is *the project's codified rule being ignored*, which is more of a structural property of AI-assisted development than a defect class with its own mechanism. The entries it appears in cover the specific defects the codification was meant to prevent.
+The underlying defect is *the project's codified rule being ignored*, which is more of a structural property of AI-assisted development than a defect class with its own mechanism. The entries it appears in cover the specific defects the codification was meant to prevent.
 
-With 16+ entries now participating, this is the most broadly-connected note in the taxonomy — it touches nearly every category.
+With 16+ entries participating, this is the most broadly-connected note in the taxonomy — it touches nearly every category.
 
 Two sub-shapes are worth tracking as potential entries in their own right:
 
-1. **Rule-silenced-rather-than-fixed** (`# noqa: BLE001` × 1066 in pollypm; `# noqa: F401` × 388 in microsoft/apm; mixed `noqa` + `type: ignore` in Red Hat AI sdg_hub; mixed `nosec` + `noqa` in endavis/infrafoundry) — currently a sub-pattern within swallowed-exceptions, but the evidence base is growing. If a fourth distinct sub-shape with cross-source confirmation accumulates, consider promoting to a standalone entry named something like `linter-silenced-rather-than-fixed` or `suppression-instead-of-fix`.
+1. **Rule-silenced-rather-than-fixed** (`# noqa: BLE001` × 1066 in pollypm; `# noqa: F401` × 388 in microsoft/apm; mixed `noqa` + `type: ignore` in Red Hat AI sdg_hub; mixed `nosec` + `noqa` in endavis/infrafoundry) — currently a sub-pattern within swallowed-exceptions, but the evidence base is growing.
 
-2. **Partial-fix-propagation** (IBM precursor #1837 → broader migration unaddressed; Dagster prior #17831 → developer-CLI path unaddressed; coachiq PR A6 → SecurityWebSocketHandler-and-dashboard sites explicitly deferred) — promoted to its own note on 2026-05-25: [`partial-fix-propagation`](partial-fix-propagation.md). Three specimens across three distinct entries.
+2. **Partial-fix-propagation** (IBM precursor #1837 → broader migration unaddressed; Dagster prior #17831 → developer-CLI path unaddressed; coachiq PR A6 → SecurityWebSocketHandler-and-dashboard sites explicitly deferred) — now its own note: [`partial-fix-propagation`](partial-fix-propagation.md). Three specimens across three distinct entries.

@@ -83,7 +83,7 @@ The diagnostic question for any candidate: *do the other implementations of this
 
 ## Notes
 
-**Category `error-handling`** matches the template's example category list. First entry in this category for the project. The category fits cleanly — every captured specimen is about error-return contracts.
+**Category `error-handling`.** The category fits cleanly — every captured specimen is about error-return contracts.
 
 **Difficulty rated `medium`.** The pattern is invisible if you only look at one function or class. The diagnostic move requires reading the parallel implementations side by side, which is more work than line-level review. A reader who only inspects the function-under-review will not flag the divergence. Once the pattern is named and the reader knows to compare across siblings, the rate of detection should improve substantially — the pattern is *medium* in raw difficulty, *low* once you know to look.
 

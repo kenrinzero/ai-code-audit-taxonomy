@@ -121,7 +121,7 @@ The diagnostic question for any candidate: *what tool is the project's framework
 
 ## Notes
 
-**Category `library-usage`** — new category. Previous entries have used `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`. This is the first entry that does not fit any of those cleanly; it covers AI-typical choices about *which library or stdlib feature to use for a task*. The category captures both the framework-vs-primitive axis and the within-library API-choice axis.
+**Category `library-usage`.** The category covers AI-typical choices about *which library or stdlib feature to use for a task*, capturing both the framework-vs-primitive axis and the within-library API-choice axis.
 
 **Difficulty rated `medium`.** Spotting `str.format()` building HTML, `os.path` doing path work, or `python -c` embedded in shell is visually quick once you know to look. The harder step is knowing *which* alternative is the right tool for each situation — that requires familiarity with the framework or library being used. A reader who knows the project's stack can audit quickly; a reader who doesn't will see locally-valid code.
 

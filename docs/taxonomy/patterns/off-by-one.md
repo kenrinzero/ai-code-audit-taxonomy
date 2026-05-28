@@ -58,7 +58,7 @@ The amplification has three distinct paths in AI-generated code:
 
 The training corpus also contains both correct and incorrect off-by-one usages. Stack Overflow answers, tutorial code, and example snippets contain plenty of `range(0, len(arr))` (correct) and plenty of `range(0, len(arr) - 1)` (correct or incorrect depending on intent) and plenty of `range(1, len(arr))` (likely a bug but sometimes intended). The model has seen all forms. It cannot, from token-prediction alone, decide which is right for the current function — that decision requires reasoning about what the function is conceptually counting (frames vs intervals, items vs spans, indices vs positions). The model's prior often defaults to the "obvious count" form (`len(arr)`) when the intent is the "spans between counts" form (`len(arr) - 1`).
 
-This pattern is **the first entry in the `control-flow` category**. It is also one of the taxonomy's **three named evergreens** alongside [`swapped-args`](swapped-args.md) and [`swallowed-exceptions`](swallowed-exceptions.md) — pattern classes so well-established that they anchor the taxonomy as familiar starting points for readers.
+This pattern is one of the taxonomy's **three named evergreens** alongside [`swapped-args`](swapped-args.md) and [`swallowed-exceptions`](swallowed-exceptions.md) — pattern classes so well-established that they anchor the taxonomy as familiar starting points for readers.
 
 The pattern is **AI-amplified, not AI-exclusive**. The inclusion-rule case here is genuinely weaker than for the typed-exception family or the structure patterns, because the underlying defect class is universal. The differential evidence is in *form* (CJK/emoji width assumption is more AI-typical than human-typical), *clustering* (five cascading width calculations all sharing one assumption), and *compounding* (903 misassignments from one bug in a generator function). Off-by-one in isolation is not strong evidence of AI-authorship; off-by-one with these specific shapes is.
 
@@ -93,7 +93,7 @@ The diagnostic question for any candidate: *what is this code conceptually count
 
 ## Notes
 
-**Category `control-flow`.** First entry in this category. Off-by-one is conventionally a control-flow defect (loop bounds, indexing), but the captured specimens span loops, indexing, slicing, arithmetic, and assumption-encoding. The category fits the loop/iteration sub-shape best; the other sub-shapes share the root mechanism but are not strictly control-flow. This entry may be a candidate for a more general `boundary-error` or `indexing-error` category if a future category refactor happens.
+**Category `control-flow`.** Off-by-one is conventionally a control-flow defect (loop bounds, indexing), but the captured specimens span loops, indexing, slicing, arithmetic, and assumption-encoding. The category fits the loop/iteration sub-shape best; the other sub-shapes share the root mechanism but are not strictly control-flow.
 
 **Difficulty rated `medium`.** The surface form is often universal (`len()`, `range()`, `arr[i:j]` — all look correct in isolation). The defect is only visible when the reader maps the arithmetic to the conceptual unit being counted. A reader who only checks "does this look like Python code" will not flag it. Once the reader knows to ask "what is this counting and what is the right unit?", detection is mechanical. Higher than `low` because the diagnostic step requires understanding what the function is *for*, not just what it *does*.
 
@@ -102,7 +102,7 @@ The diagnostic question for any candidate: *what is this code conceptually count
 1. It is one of the taxonomy's **three named evergreens** (alongside swapped-args and swallowed-exceptions).
 2. The captured specimens demonstrate **AI-typical FORMS** (CJK/emoji width-vs-len assumption, compounding through generators, fence-post in derived measurements) that are more characteristic of AI-generated code than of human-generated code.
 3. The captured specimens demonstrate **AI-typical scale/compounding** (903 misassignments from one bug; five cascading width calculations in one function family).
-4. The pattern fits the project's calibration-training goal even at universal-defect-frequencies, because the AI-typical forms are what a reader of AI-generated code should be calibrated to spot.
+4. The pattern fits the taxonomy's calibration-training goal even at universal-defect-frequencies, because the AI-typical forms are what a reader of AI-generated code should be calibrated to spot.
 
 The honest framing: off-by-one as a pattern class is in the taxonomy as a named evergreen; the AI-amplification dimensions are *form and compounding*, not raw frequency. Some other entries have stronger AI-vs-human frequency differentials. This entry trades some of that strength for completeness — off-by-one is too canonical to omit from a defect taxonomy aimed at AI-generated code.
 
@@ -125,6 +125,6 @@ The honest framing: off-by-one as a pattern class is in the taxonomy as a named 
 
 These compose with other patterns: an off-by-one in a generator that also has [`swallowed-exceptions`](swallowed-exceptions.md) on the validation step produces a particularly invisible compounded defect — the off-by-one generates wrong data, the swallowed-exception hides the validation failure, the user sees plausible-looking but wrong output.
 
-**Connection to `swapped-args` (still to come).** The third named evergreen, `swapped-args`, shares with off-by-one the property of producing code that is *locally plausible at the token level* but defective at the level of *what the function is doing*. Both are token-prediction-fluent failures. When swapped-args lands, the three named evergreens will form a small "token-fluent but semantically defective" cluster within the taxonomy. Worth noting at the category-revisit.
+**Connection to [`swapped-args`](swapped-args.md).** The other token-fluent evergreen shares with off-by-one the property of producing code that is *locally plausible at the token level* but defective at the level of *what the function is doing*. Both are token-prediction-fluent failures. Together with [`swallowed-exceptions`](swallowed-exceptions.md), the three evergreens form a "token-fluent but semantically defective" cluster within the taxonomy.
 
 **Compounding through AI-paced build pipelines** (observation from Backyard-Capitalism-9000#6) is a small sub-observation worth tracking. Off-by-one bugs that would be caught by manual review on the first sample compound across pipeline runs that don't include human checkpoints. The same dynamic likely applies to other low-frequency defects — they get amplified by automation in ways they don't by hand. Could be a future cross-cutting note rather than a separate entry.

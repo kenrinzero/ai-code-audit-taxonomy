@@ -133,7 +133,7 @@ The diagnostic question for any candidate: *should this value vary across deploy
 
 ## Notes
 
-**Category `configuration`** — new category. Previous entries have used `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`, `library-usage`, `async`, `consistency`, `observability`. The new category captures patterns about *how the program is parameterized for different contexts*. Future entries about env var handling, secret management, multi-tenant config could fit here.
+**Category `configuration`.** The category captures patterns about *how the program is parameterized for different contexts*.
 
 **Difficulty rated `medium`.** Spotting a numeric or string literal in code is trivially easy. Knowing whether it should be hardcoded (`MILLISECONDS_PER_SECOND = 1000`) or configurable (`max_tokens = 64000`) requires understanding the deployment context — who runs this code, in what environment, with what variations. A reader who knows the project's stack and user base can audit quickly; a reader who doesn't will see locally-valid code.
 

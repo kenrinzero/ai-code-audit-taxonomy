@@ -114,7 +114,7 @@ The diagnostic question for any candidate: *what failure modes can the `try` blo
 
 ## Notes
 
-**Category `error-handling`.** Third entry in this category, alongside [`inconsistent-error-handling`](inconsistent-error-handling.md) and [`brittle-error-detection`](brittle-error-detection.md). The error-handling category now has more entries than any other, with `structure` second at two. This is consistent with the typed-exception meta-family that has emerged as the project's primary theme.
+**Category `error-handling`.** Alongside [`inconsistent-error-handling`](inconsistent-error-handling.md) and [`brittle-error-detection`](brittle-error-detection.md), this forms the typed-exception meta-family within the error-handling category.
 
 **Difficulty rated `low`.** The visual cue is unambiguous — `except Exception: pass` is one of the most recognized anti-patterns in Python. Difficulty is `low` rather than `none` because the *legitimate* cases (genuine best-effort cleanup, narrow predicate over a controlled domain) require a reader to know the distinction, and many beginners will not. Once a reader knows the pattern, detection is essentially zero-effort.
 

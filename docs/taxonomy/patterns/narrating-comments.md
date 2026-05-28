@@ -160,7 +160,7 @@ The cure is rarely "delete and leave." Often it is "delete the comment and renam
 
 ## Notes
 
-**Category `documentation`** — new category. Previous entries have used `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`. This is the first entry that does not fit any of those cleanly; documentation-quality concerns are a real category of AI-typical pattern that the existing list did not anticipate. The category-revisit deferred to ~10 entries (per CLAUDE.md) is approaching; with this entry the category list grows to six and the revisit becomes more concretely useful.
+**Category `documentation`.** The category covers documentation-quality concerns that are a real category of AI-typical pattern.
 
 **Difficulty rated `low`.** Spotting a WHAT-comment is visually immediate — read the comment, read the next line, compare. A reader who knows the WHAT-vs-WHY distinction can scan AI-generated code very quickly and recognize the pattern on a single line of context. The diagnostic step is more mechanical than for any other entry in the taxonomy.
 

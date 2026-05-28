@@ -121,7 +121,7 @@ Bandit `B602`, `B604`, `B605` catch the pattern mechanically. Adding them to CI 
 
 ## Notes
 
-**Category `security`.** Third entry in the `security` category (joining [`string-built-sql`](string-built-sql.md) and [`tarfile-extractall-without-filter`](tarfile-extractall-without-filter.md)). The category now spans the three most common AI-amplified security surfaces: SQL injection, command injection, path-traversal-via-archive-extraction.
+**Category `security`.** Together with [`string-built-sql`](string-built-sql.md) and [`tarfile-extractall-without-filter`](tarfile-extractall-without-filter.md), the category spans the three most common AI-amplified security surfaces: SQL injection, command injection, path-traversal-via-archive-extraction.
 
 **Difficulty rated `low`.** Spotting `shell=True` is visually trivial. Bandit B602 catches it mechanically. The reason this is in the taxonomy is *AI-tool-surface concentration* (the defect lands where AI tooling is most user-facing) and the *LLM-output-trust-chain* observation (a new defect class introduced by AI agent systems).
 
@@ -156,4 +156,4 @@ These compose with [`string-built-sql`](string-built-sql.md) (same root mechanis
 2. `except ImportError: pass` on safety-module import — swallowed-exceptions
 3. The safety module exists and is intended; the defective import + suppression makes it not run — codified-guidance-defeated-by-its-own-implementation
 
-This compound shape is methodologically richer than any single-pattern defect. Worth highlighting at the eventual category-revisit as evidence that AI-typical defects *compose* — combining mechanisms produces qualitatively more severe outcomes than any individual mechanism alone.
+This compound shape is methodologically richer than any single-pattern defect. AI-typical defects *compose* — combining mechanisms produces qualitatively more severe outcomes than any individual mechanism alone.

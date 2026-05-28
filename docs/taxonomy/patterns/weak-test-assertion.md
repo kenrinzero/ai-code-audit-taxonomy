@@ -78,7 +78,7 @@ The diagnostic question for any single assertion: *under what concrete change to
 
 **Difficulty rated `medium` rather than `low`.** Repeated near-identical blocks (the `near-identical-siblings` entry) are visible on visual scan — the structure is the symptom. Weak assertions require mental execution against a plausible failure case. A reader who only checks "is there an assertion here?" will miss every instance. The pattern's invisibility on quick reads is part of what makes it persistent.
 
-**Category `testing` is new** for this taxonomy, alongside `structure` from the first entry. Both fall outside the template's example list (`control-flow | error-handling | naming | async | regex | typing`). The category list should be revisited as the taxonomy grows and format strain becomes visible.
+**Category `testing`.**
 
 **False-positive shapes.** Be cautious before flagging:
 

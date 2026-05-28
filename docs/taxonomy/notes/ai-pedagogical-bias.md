@@ -37,7 +37,7 @@ The model generates code that fits the corpus-modal style. In tutorial code that
 
 The defects produced are *pedagogically inflected*: each pattern looks educational, looks helpful, looks like it would be at home in a Python tutorial. They look correct *as instruction*. They are wrong *as deployed software*.
 
-A deeper observation: **the patterns differ in surface but converge on mechanism**. Comments, output primitives, configuration, network calls, and log-message formatting are five distinct domains of Python code. The model produces the *same kind of failure* in each: the simpler/more-corpus-frequent form, biased toward tutorial intelligibility, applied in a deployment context where the production-hardened form would be correct. The same root mechanism produces five different surface defects.
+A deeper observation: **the patterns differ in surface but converge on mechanism**. Comments, output primitives, configuration, network calls, log-message formatting, and runtime validation are six distinct domains of Python code. The model produces the *same kind of failure* in each: the simpler/more-corpus-frequent form, biased toward tutorial intelligibility, applied in a deployment context where the production-hardened form would be correct. The same root mechanism produces six different surface defects.
 
 ## Implications
 
@@ -46,7 +46,7 @@ For readers of AI-generated code:
 - The diagnostic question is "what is the deployment context, and is this code style appropriate for it?"
 - The same code that would earn praise in a Python tutorial fails the same audit in a library codebase
 - Calibration for AI-generated code involves separating "explanation-shaped" patterns from "production-shaped" patterns
-- The five-entry coverage of this meta-family makes pedagogical-bias one of the most reliable signals for distinguishing AI-generated production code from human-written production code
+- The six-entry coverage of this meta-family makes pedagogical-bias one of the most reliable signals for distinguishing AI-generated production code from human-written production code
 
 For projects using AI-assisted development:
 
@@ -54,20 +54,12 @@ For projects using AI-assisted development:
 - Codified guidance alone is insufficient (see [`codified-guidance-is-insufficient`](codified-guidance-is-insufficient.md)) — the cure is enforcement, not documentation
 - The relevant lint rules — ruff `G004` (f-string logging), bandit `S113` (requests without timeout), ruff `B006` (mutable default argument), `PLC0415` (lazy imports), `BLE001` (broad except) — should be enabled at CI gate
 
-For the project's calibration training:
+For readers learning to audit AI-generated code:
 
 - This meta-family is a useful onramp for readers learning to recognize AI-generated code. The patterns are individually subtle but together form a recognizable *pedagogical shape*.
 - A reader calibrated for this meta-family can quickly assess "is this code production-fit or tutorial-fit?" by skimming a single file.
-- The meta-family is now robust enough (5 entries, distinct surfaces, same root mechanism) to consider elevation to a primary organizing principle of the taxonomy at the eventual category-revisit.
+- The meta-family is robust (six entries, distinct surfaces, same root mechanism) and functions as a primary organizing principle of the taxonomy.
 
-## Promotion criteria
+## Why this is a note, not an entry
 
-This observation is documented here rather than as an entry because the meta-mechanism is corpus-distribution-level, not defect-class-level. The defects themselves are documented by the five entries. The note exists to name the shared mechanism that connects them.
-
-With 5+ entries now landed, the original promotion-trigger ("if the meta-family reaches five-plus entries, consider whether the underlying mechanism deserves elevation") is met. The next category-revisit pass should consider whether to:
-
-- Add an "AI-pedagogical-bias" prefix or tag to each member entry for cross-referencing
-- Promote the family to a named "school of defects" sibling to the typed-exception family already converged at four entries
-- Restructure the taxonomy organization to group entries partly by mechanism (this being one) and partly by surface (the current categories)
-
-If a sixth entry lands that demonstrates the same pedagogical-bias mechanism on a new surface, expand the table here with the additional entry.
+This observation is documented here rather than as an entry because the meta-mechanism is corpus-distribution-level, not defect-class-level. The defects themselves are documented by the six entries. The note exists to name the shared mechanism that connects them.

@@ -121,7 +121,7 @@ The diagnostic question for any candidate: *what convention should be consistent
 
 ## Notes
 
-**Category `consistency`** — new category. Previous entries have used `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`, `library-usage`, `async`. The new category captures patterns about *uniformity across a codebase* — convention drift is the umbrella; specific sub-categories (naming consistency, error-handling consistency, type consistency) are nested within. [`inconsistent-error-handling`](inconsistent-error-handling.md) could plausibly move to `consistency` at the category-revisit; for now it stays in `error-handling` because the defect path is error-specific.
+**Category `consistency`.** The category captures patterns about *uniformity across a codebase* — convention drift is the umbrella; specific sub-categories (naming consistency, error-handling consistency, type consistency) are nested within. [`inconsistent-error-handling`](inconsistent-error-handling.md) stays in `error-handling` because the defect path is error-specific.
 
 **Difficulty rated `medium`.** Spotting a single inconsistent identifier or import is easy. Recognizing convention drift as a pattern requires reading across multiple files and counting frequencies. A reader who only audits one file at a time will not flag the pattern; once the reader knows to count conventions in a directory, detection is a quick `grep` away.
 

@@ -77,13 +77,7 @@ For projects using AI-assisted development:
 - Configure lint rules: `BLE001` for broad excepts, custom rules for `if .* in str(.*):` patterns inside `except` blocks.
 - Code-review checklist: "is this defensive shape actually doing the defensive work it appears to do?"
 
-For the calibration training:
+For readers learning to audit AI-generated code:
 
-- This family is one of the project's most-tested mechanism convergences. A reader calibrated to recognize "defensive shape without defensive substance" can audit four distinct surfaces efficiently.
-- Drills that ask "what concrete failure mode does this construct handle?" train the audit step directly.
-
-## Promotion criteria
-
-This note exists because four entries converge on the same advice. The convergence has been visible since the swallowed-exceptions entry landed (its Notes section first named the four-member family). The note formalizes that observation.
-
-If a fifth entry lands that demonstrates the same defensive-shape-without-substance mechanism on a new surface (e.g. a `weak-validator-that-cannot-reject` pattern, or a `mock-as-defensive-stand-in` pattern), expand the table here. The token-fluent-but-semantically-defective cluster ([`off-by-one`](../patterns/off-by-one.md) + [`swapped-args`](../patterns/swapped-args.md), with swallowed-exceptions as a partial fit) is structurally adjacent — both families produce code that has correct surface form and incorrect substance. They could be reconciled at the eventual category-revisit if a richer note structure emerges.
+- This family is one of the taxonomy's most-tested mechanism convergences. A reader calibrated to recognize "defensive shape without defensive substance" can audit four distinct surfaces efficiently.
+- Asking "what concrete failure mode does this construct handle?" is the audit step that surfaces the defect directly.

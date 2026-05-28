@@ -112,5 +112,5 @@ Evidence specimens referenced in entries link to the original GitHub issues. Loc
 
 ## License
 
-MIT — see [LICENSE](docs/LICENSE).
+MIT — see [LICENSE](LICENSE).
 

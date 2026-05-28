@@ -129,7 +129,7 @@ The diagnostic question for any async-related code: *do the `async`/`await` keyw
 
 ## Notes
 
-**Category `async`.** Second entry in this category (joining [`sleep-based-synchronization`](sleep-based-synchronization.md)). Both stem from the model's async-ecosystem corpus inheritance — sleep-based-synchronization replaces proper synchronization with sleep; async-await-mismatch produces async/await keywords without consistent tracking.
+**Category `async`.** Both this entry and [`sleep-based-synchronization`](sleep-based-synchronization.md) stem from the model's async-ecosystem corpus inheritance — sleep-based-synchronization replaces proper synchronization with sleep; async-await-mismatch produces async/await keywords without consistent tracking.
 
 **Difficulty rated `medium`.** Spotting `async def` is visually trivial; spotting *missing* `await` requires understanding the callee's signature. The runtime warning (`RuntimeWarning: coroutine '...' was never awaited`) makes detection mechanical *if* the test suite or production logs are watched. The harder case is missing-await with broad-except masking (the coachiq specimen): the swallowed exception means the warning is the only signal.
 
