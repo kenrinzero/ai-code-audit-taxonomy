@@ -44,7 +44,7 @@ The training corpus reinforces the failure mode. Defensive assertion forms — `
 
 The model also has no execution feedback during generation. A real engineer might write a draft assertion, run the test, mutate the implementation, and re-run to verify the test would fail on the broken implementation. The model writes the assertion, the model does not run it, and the assertion ships with the package. This means assertion correctness has to be reasoned about purely from the token stream — which is the operation that fails.
 
-This pattern is the **test-shaped cousin of the swallowed-exceptions evergreen** named in the project plan. Both involve a defensive shape that has been disconnected from its purpose. In swallowed exceptions, `try/except: pass` looks like error handling but cannot raise. In weak test assertions, `assert "x" in content.lower()` looks like a check but cannot fail.
+This pattern is the **test-shaped cousin of the [`swallowed-exceptions`](swallowed-exceptions.md) evergreen**. Both involve a defensive shape that has been disconnected from its purpose. In swallowed exceptions, `try/except: pass` looks like error handling but cannot raise. In weak test assertions, `assert "x" in content.lower()` looks like a check but cannot fail.
 
 ## Evidence / incident
 
@@ -78,7 +78,7 @@ The diagnostic question for any single assertion: *under what concrete change to
 
 **Difficulty rated `medium` rather than `low`.** Repeated near-identical blocks (the `near-identical-siblings` entry) are visible on visual scan — the structure is the symptom. Weak assertions require mental execution against a plausible failure case. A reader who only checks "is there an assertion here?" will miss every instance. The pattern's invisibility on quick reads is part of what makes it persistent.
 
-**Category `testing` is new** for this taxonomy, alongside `structure` from the first entry. Both fall outside the template's example list (`control-flow | error-handling | naming | async | regex | typing`). Per the project plan, the category list should be revisited when ~10 entries land and format strain becomes visible.
+**Category `testing` is new** for this taxonomy, alongside `structure` from the first entry. Both fall outside the template's example list (`control-flow | error-handling | naming | async | regex | typing`). The category list should be revisited as the taxonomy grows and format strain becomes visible.
 
 **False-positive shapes.** Be cautious before flagging:
 
@@ -86,6 +86,6 @@ The diagnostic question for any single assertion: *under what concrete change to
 - *Tests with explicit "either outcome is correct" semantics.* For example, a test on a non-deterministic algorithm may legitimately accept multiple results. The cue is whether the test name and docstring explicitly acknowledge non-determinism.
 - *Smoke tests that only verify "the request did not crash."* If the test name encodes that intent (`test_dashboard_does_not_crash`) and the assertion checks `response.status_code == 200`, that is intentional and not a weak assertion. The AI-typical shape is the mismatch between an *intent-promising name* and a *behavior-not-verifying assertion*.
 
-**Mutation operator hint.** A deterministic mutation that takes a tight assertion and weakens it produces this pattern from clean code: replace `assert "Welcome, Alice!" in body` with `assert "welcome" in body.lower() or "alice" in body.lower()`; replace `assert count == 3` with `assert count >= 1`; replace `assert isinstance(result, User)` with `assert result`. These are useful primitives for the v0.5 mutation playground.
+**Mutation operator hint.** A deterministic mutation that takes a tight assertion and weakens it produces this pattern from clean code: replace `assert "Welcome, Alice!" in body` with `assert "welcome" in body.lower() or "alice" in body.lower()`; replace `assert count == 3` with `assert count >= 1`; replace `assert isinstance(result, User)` with `assert result`. These are useful primitives for mutation-testing tools.
 
-**Adjacent patterns still in evidence.** The candidate pool documented in `evidence/patterns-draft/2026-05-15-singleton-candidates.md` includes adjacent test-quality concerns that may eventually deserve their own entries (e.g., tests with overly tolerant numeric tolerances, tests that mock the thing they intend to verify). They are recorded for visibility, not for inclusion under this entry.
+**Adjacent patterns.** Adjacent test-quality concerns may eventually deserve their own entries (e.g., tests with overly tolerant numeric tolerances, tests that mock the thing they intend to verify). They are tracked for visibility, not for inclusion under this entry.

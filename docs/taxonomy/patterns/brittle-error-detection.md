@@ -99,7 +99,7 @@ The diagnostic question for any candidate: *what is the contract that this subst
 
 ## Notes
 
-**Category `error-handling`.** Same category as [`inconsistent-error-handling`](inconsistent-error-handling.md); the two are sibling patterns within the same error-handling family. The categories list will be revisited when ~10 entries land per the project plan.
+**Category `error-handling`.** Same category as [`inconsistent-error-handling`](inconsistent-error-handling.md); the two are sibling patterns within the same error-handling family. The categories list will be revisited as the taxonomy grows.
 
 **Difficulty rated `medium`.** Spotting the surface (`if "..." in str(e):`) is low-effort; understanding *why* it is brittle requires knowing that error messages are not part of most APIs' stable contracts. A Python beginner who reads the code may not flag it. Once a reader knows the pattern, the diagnostic is mechanical — grep the message text in the throw site's module and ask whether it is intentionally stable.
 

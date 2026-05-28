@@ -2,7 +2,7 @@
 
 The same codebase often uses the right pattern at one site and the wrong pattern at another. The model's prior at each generation context is independent enough to produce both choices.
 
-This is the single most load-bearing cross-cutting observation in the project's evidence base. It appears in **ten** entries and demonstrates a structural property of AI-generated code that human-paced development rarely produces.
+This is the single most load-bearing cross-cutting observation in the taxonomy's evidence base. It appears in **ten** entries and demonstrates a structural property of AI-generated code that human-paced development rarely produces.
 
 ## Where the observation appears
 

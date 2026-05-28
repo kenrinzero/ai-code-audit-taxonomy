@@ -58,7 +58,7 @@ The amplification has three distinct paths in AI-generated code:
 
 The training corpus also contains both correct and incorrect off-by-one usages. Stack Overflow answers, tutorial code, and example snippets contain plenty of `range(0, len(arr))` (correct) and plenty of `range(0, len(arr) - 1)` (correct or incorrect depending on intent) and plenty of `range(1, len(arr))` (likely a bug but sometimes intended). The model has seen all forms. It cannot, from token-prediction alone, decide which is right for the current function — that decision requires reasoning about what the function is conceptually counting (frames vs intervals, items vs spans, indices vs positions). The model's prior often defaults to the "obvious count" form (`len(arr)`) when the intent is the "spans between counts" form (`len(arr) - 1`).
 
-This pattern is **the first entry in the `control-flow` category**. It is also one of the **canonical evergreens called out in the original project plan** alongside `swapped-args` (yet to come). Off-by-one, `swapped-args`, and `swallowed-exceptions` were the three named evergreens — pattern classes so well-established that the project plan listed them by name as guaranteed inclusions. Two of three have now landed.
+This pattern is **the first entry in the `control-flow` category**. It is also one of the taxonomy's **three named evergreens** alongside [`swapped-args`](swapped-args.md) and [`swallowed-exceptions`](swallowed-exceptions.md) — pattern classes so well-established that they anchor the taxonomy as familiar starting points for readers.
 
 The pattern is **AI-amplified, not AI-exclusive**. The inclusion-rule case here is genuinely weaker than for the typed-exception family or the structure patterns, because the underlying defect class is universal. The differential evidence is in *form* (CJK/emoji width assumption is more AI-typical than human-typical), *clustering* (five cascading width calculations all sharing one assumption), and *compounding* (903 misassignments from one bug in a generator function). Off-by-one in isolation is not strong evidence of AI-authorship; off-by-one with these specific shapes is.
 
@@ -93,18 +93,18 @@ The diagnostic question for any candidate: *what is this code conceptually count
 
 ## Notes
 
-**Category `control-flow`.** First entry in this category. Off-by-one is conventionally a control-flow defect (loop bounds, indexing), but the captured specimens span loops, indexing, slicing, arithmetic, and assumption-encoding. The category fits the loop/iteration sub-shape best; the other sub-shapes share the root mechanism but are not strictly control-flow. The category list will be revisited when ~10 entries land per the project plan; this entry may be a candidate for a more general `boundary-error` or `indexing-error` category if a refactor happens.
+**Category `control-flow`.** First entry in this category. Off-by-one is conventionally a control-flow defect (loop bounds, indexing), but the captured specimens span loops, indexing, slicing, arithmetic, and assumption-encoding. The category fits the loop/iteration sub-shape best; the other sub-shapes share the root mechanism but are not strictly control-flow. This entry may be a candidate for a more general `boundary-error` or `indexing-error` category if a future category refactor happens.
 
 **Difficulty rated `medium`.** The surface form is often universal (`len()`, `range()`, `arr[i:j]` — all look correct in isolation). The defect is only visible when the reader maps the arithmetic to the conceptual unit being counted. A reader who only checks "does this look like Python code" will not flag it. Once the reader knows to ask "what is this counting and what is the right unit?", detection is mechanical. Higher than `low` because the diagnostic step requires understanding what the function is *for*, not just what it *does*.
 
 **The inclusion-rule case is honestly weaker than for prior entries.** Off-by-one is universal — humans hit it constantly. The pattern is in the taxonomy because:
 
-1. It is one of the **named evergreens** in the original project plan (the project plan explicitly listed it).
+1. It is one of the taxonomy's **three named evergreens** (alongside swapped-args and swallowed-exceptions).
 2. The captured specimens demonstrate **AI-typical FORMS** (CJK/emoji width-vs-len assumption, compounding through generators, fence-post in derived measurements) that are more characteristic of AI-generated code than of human-generated code.
 3. The captured specimens demonstrate **AI-typical scale/compounding** (903 misassignments from one bug; five cascading width calculations in one function family).
 4. The pattern fits the project's calibration-training goal even at universal-defect-frequencies, because the AI-typical forms are what a reader of AI-generated code should be calibrated to spot.
 
-The honest framing: off-by-one as a pattern class is in the taxonomy because the project plan calls it an evergreen; the AI-amplification dimensions are *form and compounding*, not raw frequency. The four other entries in the taxonomy so far have stronger AI-vs-human frequency differentials. This entry trades some of that strength for completeness against the project plan's named-evergreen list.
+The honest framing: off-by-one as a pattern class is in the taxonomy as a named evergreen; the AI-amplification dimensions are *form and compounding*, not raw frequency. Some other entries have stronger AI-vs-human frequency differentials. This entry trades some of that strength for completeness — off-by-one is too canonical to omit from a defect taxonomy aimed at AI-generated code.
 
 **The pattern is AI-amplified, not AI-exclusive.** Restated for emphasis: every human Python programmer has shipped off-by-one bugs. The AI-amplification dimensions are the three paths in the Mechanism section: token-level fluency of canonical forms, English-centric default assumptions, and compounding through generator functions in AI-paced pipelines.
 

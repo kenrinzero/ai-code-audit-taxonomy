@@ -28,7 +28,7 @@ Gloss technical terms inline when needed.
 ## Evidence / incident
 
 The strongest evidence in hand, linked. For `reproduced` or `observed` entries, link to
-specimens in `evidence/` and to any real-world incident (GitHub issue, postmortem URL,
+the original source and to any real-world incident (GitHub issue, postmortem URL,
 security advisory, CVE, developer blog post). For `reported` entries, link to the report.
 For `analogical` entries, link to the non-AI defect class this generalizes from and state
 explicitly that no AI-specific specimen has been captured yet.

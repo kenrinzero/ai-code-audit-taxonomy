@@ -84,7 +84,7 @@ For the project's calibration training:
 
 The observation appears in 10+ entries and is robust. It is documented as a note rather than as an entry because the underlying defect is *the project's codified rule being ignored*, which is more of a structural property of AI-assisted development than a defect class with its own mechanism. The entries it appears in cover the specific defects the codification was meant to prevent.
 
-With 10+ entries now landed, consider whether to elevate to a more prominent place in the taxonomy structure — possibly as a section of CLAUDE.md or as a top-level README note for the project's overall framing.
+With 16+ entries now participating, this is the most broadly-connected note in the taxonomy — it touches nearly every category.
 
 Two sub-shapes are worth tracking as potential entries in their own right:
 

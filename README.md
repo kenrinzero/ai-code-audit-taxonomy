@@ -21,7 +21,7 @@ Each entry also documents **false-positive shapes** — what looks like the patt
 
 **If you review AI-generated code:** scan the Detection cues sections. Most are grep-able (`except Exception: pass`, `requests.get(` without `timeout=`, `logger.info(f"`). Start with the entries rated `difficulty: low` — they have the highest signal-to-effort ratio.
 
-**If you build or configure AI coding tools:** the Mechanism sections explain *why* each pattern recurs. The cross-cutting note [codified-guidance-is-insufficient](taxonomy/notes/codified-guidance-is-insufficient.md) documents why CLAUDE.md / AGENTS.md conventions alone don't prevent these — enforcement via lint rules and CI is the cure.
+**If you build or configure AI coding tools:** the Mechanism sections explain *why* each pattern recurs. The cross-cutting note [codified-guidance-is-insufficient](docs/taxonomy/notes/codified-guidance-is-insufficient.md) documents why CLAUDE.md / AGENTS.md conventions alone don't prevent these — enforcement via lint rules and CI is the cure.
 
 **If you maintain ruff, bandit, or similar linters:** many entries map to existing rules (ruff `BLE001`, `B006`, `G004`, `SIM115`, `PLC0415`, `RUF029`; bandit `B101`, `B113`, `B202`, `B602`, `B608`). The taxonomy documents the AI-amplified densities at which these rules fire and the false-positive shapes that help triage.
 
@@ -43,20 +43,20 @@ Most defects in the taxonomy come from these three forces together: the corpus-f
 
 | Category | Entries |
 |----------|---------|
-| **error-handling** | [swallowed-exceptions](taxonomy/patterns/swallowed-exceptions.md), [inconsistent-error-handling](taxonomy/patterns/inconsistent-error-handling.md), [brittle-error-detection](taxonomy/patterns/brittle-error-detection.md) |
-| **structure** | [near-identical-siblings](taxonomy/patterns/near-identical-siblings.md), [unjustified-lazy-import](taxonomy/patterns/unjustified-lazy-import.md) |
-| **control-flow** | [off-by-one](taxonomy/patterns/off-by-one.md), [swapped-args](taxonomy/patterns/swapped-args.md) |
-| **security** | [string-built-sql](taxonomy/patterns/string-built-sql.md), [shell-true-subprocess-injection](taxonomy/patterns/shell-true-subprocess-injection.md), [tarfile-extractall-without-filter](taxonomy/patterns/tarfile-extractall-without-filter.md) |
-| **observability** | [print-instead-of-logging](taxonomy/patterns/print-instead-of-logging.md), [f-string-in-logger-call](taxonomy/patterns/f-string-in-logger-call.md) |
-| **reliability** | [missing-network-timeout](taxonomy/patterns/missing-network-timeout.md), [resource-leak-no-context-manager](taxonomy/patterns/resource-leak-no-context-manager.md) |
-| **async** | [async-await-mismatch](taxonomy/patterns/async-await-mismatch.md), [sleep-based-synchronization](taxonomy/patterns/sleep-based-synchronization.md) |
-| **language-pitfall** | [mutable-default-arguments](taxonomy/patterns/mutable-default-arguments.md), [assert-for-runtime-validation](taxonomy/patterns/assert-for-runtime-validation.md) |
-| **configuration** | [hardcoded-config-values](taxonomy/patterns/hardcoded-config-values.md) |
-| **consistency** | [convention-drift](taxonomy/patterns/convention-drift.md) |
-| **documentation** | [narrating-comments](taxonomy/patterns/narrating-comments.md) |
-| **testing** | [weak-test-assertion](taxonomy/patterns/weak-test-assertion.md) |
-| **defensive-programming** | [unreachable-defensive-guard](taxonomy/patterns/unreachable-defensive-guard.md) |
-| **library-usage** | [wrong-tool-for-job](taxonomy/patterns/wrong-tool-for-job.md) |
+| **error-handling** | [swallowed-exceptions](docs/taxonomy/patterns/swallowed-exceptions.md), [inconsistent-error-handling](docs/taxonomy/patterns/inconsistent-error-handling.md), [brittle-error-detection](docs/taxonomy/patterns/brittle-error-detection.md) |
+| **structure** | [near-identical-siblings](docs/taxonomy/patterns/near-identical-siblings.md), [unjustified-lazy-import](docs/taxonomy/patterns/unjustified-lazy-import.md) |
+| **control-flow** | [off-by-one](docs/taxonomy/patterns/off-by-one.md), [swapped-args](docs/taxonomy/patterns/swapped-args.md) |
+| **security** | [string-built-sql](docs/taxonomy/patterns/string-built-sql.md), [shell-true-subprocess-injection](docs/taxonomy/patterns/shell-true-subprocess-injection.md), [tarfile-extractall-without-filter](docs/taxonomy/patterns/tarfile-extractall-without-filter.md) |
+| **observability** | [print-instead-of-logging](docs/taxonomy/patterns/print-instead-of-logging.md), [f-string-in-logger-call](docs/taxonomy/patterns/f-string-in-logger-call.md) |
+| **reliability** | [missing-network-timeout](docs/taxonomy/patterns/missing-network-timeout.md), [resource-leak-no-context-manager](docs/taxonomy/patterns/resource-leak-no-context-manager.md) |
+| **async** | [async-await-mismatch](docs/taxonomy/patterns/async-await-mismatch.md), [sleep-based-synchronization](docs/taxonomy/patterns/sleep-based-synchronization.md) |
+| **language-pitfall** | [mutable-default-arguments](docs/taxonomy/patterns/mutable-default-arguments.md), [assert-for-runtime-validation](docs/taxonomy/patterns/assert-for-runtime-validation.md) |
+| **configuration** | [hardcoded-config-values](docs/taxonomy/patterns/hardcoded-config-values.md) |
+| **consistency** | [convention-drift](docs/taxonomy/patterns/convention-drift.md) |
+| **documentation** | [narrating-comments](docs/taxonomy/patterns/narrating-comments.md) |
+| **testing** | [weak-test-assertion](docs/taxonomy/patterns/weak-test-assertion.md) |
+| **defensive-programming** | [unreachable-defensive-guard](docs/taxonomy/patterns/unreachable-defensive-guard.md) |
+| **library-usage** | [wrong-tool-for-job](docs/taxonomy/patterns/wrong-tool-for-job.md) |
 
 ### By mechanism (cross-cutting notes)
 
@@ -64,12 +64,12 @@ Each entry has a category (the *surface* where the defect appears) and may parti
 
 | Note | What it observes | Entries |
 |------|------------------|---------|
-| [ai-pedagogical-bias](taxonomy/notes/ai-pedagogical-bias.md) | Model treats production code as tutorial code | 6 entries |
-| [same-project-knows-right-pattern](taxonomy/notes/same-project-knows-right-pattern.md) | Same codebase uses the right pattern at one site, wrong at another | 10 entries |
-| [codified-guidance-is-insufficient](taxonomy/notes/codified-guidance-is-insufficient.md) | Documented conventions don't prevent the violations; enforcement is the cure | 16+ entries |
-| [surface-failure-modes-explicitly](taxonomy/notes/surface-failure-modes-explicitly.md) | Typed-exception meta-family: surface failure modes through the type system | 4 entries |
-| [defensive-choice-with-justifying-comment](taxonomy/notes/defensive-choice-with-justifying-comment.md) | Defensive choices paired with comments justifying constraints that don't survive verification | 9+ entries |
-| [partial-fix-propagation](taxonomy/notes/partial-fix-propagation.md) | A prior fix addressed some sites; sibling sites retain the wrong pattern | 3 entries |
+| [ai-pedagogical-bias](docs/taxonomy/notes/ai-pedagogical-bias.md) | Model treats production code as tutorial code | 6 entries |
+| [same-project-knows-right-pattern](docs/taxonomy/notes/same-project-knows-right-pattern.md) | Same codebase uses the right pattern at one site, wrong at another | 10 entries |
+| [codified-guidance-is-insufficient](docs/taxonomy/notes/codified-guidance-is-insufficient.md) | Documented conventions don't prevent the violations; enforcement is the cure | 16+ entries |
+| [surface-failure-modes-explicitly](docs/taxonomy/notes/surface-failure-modes-explicitly.md) | Typed-exception meta-family: surface failure modes through the type system | 4 entries |
+| [defensive-choice-with-justifying-comment](docs/taxonomy/notes/defensive-choice-with-justifying-comment.md) | Defensive choices paired with comments justifying constraints that don't survive verification | 9+ entries |
+| [partial-fix-propagation](docs/taxonomy/notes/partial-fix-propagation.md) | A prior fix addressed some sites; sibling sites retain the wrong pattern | 3 entries |
 
 ## Entry format
 
@@ -99,7 +99,7 @@ A pattern enters the taxonomy only if there is concrete evidence of a frequency 
 
 The taxonomy's evidence base draws from three streams:
 
-1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
+1. **GitHub issues and PRs** from AI-coded open-source projects — identified by CLAUDE.md/AGENTS.md presence, AI-attributed commit trailers, or bot-authored audit frameworks. 75 specimens drawn from 65+ distinct repositories across the entries. A small number of repositories (notably NousResearch/hermes-agent) contribute specimens to multiple entries; individual entries may have narrower provenance — the per-entry Evidence sections are transparent about sourcing.
 2. **Community lint rules** (ruff, bandit, pylint, SonarCloud) that independently flag the same patterns — evidence that the broader Python community recognizes these as defect classes regardless of authorship.
 3. **Academic cross-validation** — Zhu, Tsantalis & Rigby (2026), "AI-Generated Smells" (arXiv:2605.02741), provides statistical evidence on structural code smells in AI-generated Python code, cross-validating the `near-identical-siblings` entry and the broader claim that AI-generated code has measurable distributional properties.
 
@@ -112,5 +112,5 @@ Evidence specimens referenced in entries link to the original GitHub issues. Loc
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](docs/LICENSE).
 

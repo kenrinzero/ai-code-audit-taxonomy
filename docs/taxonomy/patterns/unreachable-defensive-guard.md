@@ -47,7 +47,7 @@ The training corpus reinforces the failure mode. Library and framework code is o
 
 There is also a self-reinforcing local pattern. If a function the model previously generated had a defensive guard, the next similar function generated has a higher probability of also having one — the local pattern within a generation session is sticky. Audits of AI-generated codebases commonly find defensive guards clustering in groups, applied to multiple internal helpers in the same module, even when only one of them might plausibly be a public entry point.
 
-This pattern is the **defensive-coding cousin of the project plan's `swallowed exceptions` evergreen**. Both involve defensive shapes disconnected from purpose. In swallowed exceptions, `try/except: pass` looks like error handling but cannot raise. In unreachable defensive guards, `if x is None: ...` looks like input validation but cannot trigger. Both are defensive forms applied without verifying that the defense corresponds to a real risk.
+This pattern is the **defensive-coding cousin of the [`swallowed-exceptions`](swallowed-exceptions.md) evergreen**. Both involve defensive shapes disconnected from purpose. In swallowed exceptions, `try/except: pass` looks like error handling but cannot raise. In unreachable defensive guards, `if x is None: ...` looks like input validation but cannot trigger. Both are defensive forms applied without verifying that the defense corresponds to a real risk.
 
 The pattern is **AI-amplified, not AI-exclusive**. Humans also write unnecessary defensive code — under deadline, after a postmortem made them paranoid, or when reviewing literature suggests "defensive programming" without context. The honest claim is that AI assistants produce this pattern at notable frequency and across notable surface variations (single unreachable guards, double-guard redundancies, mock-pollution defenses). It is a fluency aid for reading AI-generated code, not a critique of defensive programming as a discipline.
 
@@ -80,7 +80,7 @@ The diagnostic question for any single guard: *under what concrete call site wou
 
 ## Notes
 
-**Category `defensive-programming` is new** for this taxonomy. Per the project plan, the category list should be revisited when ~10 entries land. Existing categories so far: `structure` (near-identical-siblings), `testing` (weak-test-assertion), `defensive-programming` (this entry). The categories are emerging organically rather than being designed up front, which is consistent with the project plan's "wait for format strain before refactoring" guidance.
+**Category `defensive-programming` is new** for this taxonomy. The categories are emerging organically rather than being designed up front; the category list should be revisited as the taxonomy grows and format strain becomes visible.
 
 **Difficulty rated `medium`.** Defensive programming is generally a virtue; spotting an *unnecessary* defensive guard requires tracing back to call sites and verifying invariants. A reader who only checks "is there an obvious bug here?" will not flag this pattern — the guard looks correct in isolation. Similar mental effort to weak-test-assertion.
 
@@ -99,9 +99,9 @@ The diagnostic question for any single guard: *under what concrete call site wou
 - Wrap a numerical operation in `if <param> <= 0: return 0` when callers enforce positivity
 - Add `isinstance(<param>, <annotated_type>)` checks when the parameter is already type-annotated
 
-These are useful primitives for the v0.5 mutation playground. They are also easy to compose with `swallowed exceptions` — a `try/except: pass` block placed around code that cannot raise produces a related but distinct defect.
+These are useful primitives for mutation-testing tools. They are also easy to compose with `swallowed exceptions` — a `try/except: pass` block placed around code that cannot raise produces a related but distinct defect.
 
-**Adjacent patterns still in evidence.** The candidate pool in `evidence/patterns-draft/` includes related defensive-programming concerns that may eventually deserve their own entries — for example, *silent default-return on invalid input* (the text-game specimen's adjacent issue #288 "EventResult sentinels and enforce fail-fast" addresses this). They are recorded for visibility, not for inclusion under this entry.
+**Adjacent patterns.** Related defensive-programming concerns may eventually deserve their own entries — for example, *silent default-return on invalid input* (the text-game specimen's adjacent issue #288 "EventResult sentinels and enforce fail-fast" addresses this). They are tracked for visibility, not for inclusion under this entry.
 
 **Connection to [`surface-failure-modes-explicitly`](../notes/surface-failure-modes-explicitly.md) note.** This entry is one of four members of the typed-exception meta-family, alongside [`inconsistent-error-handling`](inconsistent-error-handling.md), [`brittle-error-detection`](brittle-error-detection.md), and [`swallowed-exceptions`](swallowed-exceptions.md). All four converge on the advice: surface failure modes through the type system; document preconditions; fail loudly when invariants are violated. The note formalizes the convergence.
 

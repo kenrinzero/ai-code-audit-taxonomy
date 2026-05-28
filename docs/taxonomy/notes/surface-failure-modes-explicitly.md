@@ -50,7 +50,7 @@ The four cures converge on a single piece of advice:
 
 > Surface failure modes explicitly through the type system. Do not paper over them with defensive checks, string matching, sentinel returns, or silent swallows.
 
-This is consistent with the project plan's original `swallowed exceptions` evergreen and is the implicit theme of half the taxonomy. Defensive code that *actually* handles failures looks structurally different from defensive code that *appears* to handle failures:
+This is consistent with the `swallowed-exceptions` evergreen and is the implicit theme of half the taxonomy. Defensive code that *actually* handles failures looks structurally different from defensive code that *appears* to handle failures:
 
 - Real defensive code defines a typed exception, or returns a structured Result/Either type, or raises with a clear cause chain.
 - AI-amplified defensive code adds a guard, a substring check, a sentinel value, or a `try/except: pass` — shapes that *look* defensive but cannot actually distinguish or convey the failure.

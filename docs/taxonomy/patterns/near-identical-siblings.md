@@ -91,7 +91,7 @@ The cue that distinguishes this pattern from intentional duplication: the siblin
 
 ## Notes
 
-**Category placeholder.** This is the first entry in the taxonomy and `structure` is a new category not in the template's example list (`control-flow | error-handling | naming | async | regex | typing`). The category should be revisited when more entries land and the format strain becomes visible. The project plan explicitly recommends waiting until ~10 entries exist before refactoring taxonomy structure.
+**Category placeholder.** This is the first entry in the taxonomy and `structure` is a new category not in the template's example list (`control-flow | error-handling | naming | async | regex | typing`). The category should be revisited when more entries land and the format strain becomes visible.
 
 **The pattern is AI-amplified, not AI-exclusive.** Human-written code also produces unabstracted parallel logic — under time pressure, during early prototyping, or when the duplication is locally easier than the lift. The inclusion claim is that AI-generated code shows this with notable frequency and at notable scale (3 to 10 sibling structures is high for a single function or module). A taxonomy entry is not an accusation; it is a fluency aid.
 
@@ -101,11 +101,11 @@ The cue that distinguishes this pattern from intentional duplication: the siblin
 - *Sibling structures with meaningfully divergent semantics.* Three citation-formatter functions can look near-identical but actually differ in subtle formatting rules; lifting them into a shared template may degrade output quality. The decision to abstract is judgment, not mechanical.
 - *Test code.* Parameterized tests are good practice but it is also reasonable for parallel test cases to be written out individually for readability when they are exercising distinct named scenarios.
 
-**Mutation operator hint.** When the eventual mutation engine generates this pattern from clean code, the operator is: take a loop over a small iterable, unroll it into N sequential blocks with one variable substituted in each, and rename any intermediate-state variable per iteration. This produces the AI-amplified form deterministically from a known clean form, suitable for the drill-mode workflow.
+**Mutation operator hint.** A deterministic mutation that generates this pattern from clean code: take a loop over a small iterable, unroll it into N sequential blocks with one variable substituted in each, and rename any intermediate-state variable per iteration. This produces the AI-amplified form deterministically from a known clean form.
 
 **Related candidates still in evidence.** The hunt that produced this entry also surfaced two adjacent candidates that share a deeper mechanism (token-level prediction failing to induce structural relationships):
 
-- *Incomplete propagation of an interface change* — single-source cluster, cross-context test negative; see `evidence/patterns-draft/2026-05-15-singleton-candidates.md`.
+- *Incomplete propagation of an interface change* — single-source cluster, cross-context test negative.
 - *Symptom suppression by magic-number substitution* — singleton from SWE-bench; same document.
 
 Neither is ready to draft as an entry. They are recorded for visibility, not for grouping with this entry.
