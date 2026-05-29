@@ -1,5 +1,5 @@
 site_name: AI Code Audit Taxonomy
-site_description: 24 AI-typical code defect patterns in Python — mechanism, evidence, detection cues
+site_description: AI-typical code defect patterns in Python — mechanism, evidence, detection cues
 site_url: https://kenrinzero.github.io/ai-code-audit-taxonomy
 repo_url: https://github.com/kenrinzero/ai-code-audit-taxonomy
 repo_name: kenrinzero/ai-code-audit-taxonomy

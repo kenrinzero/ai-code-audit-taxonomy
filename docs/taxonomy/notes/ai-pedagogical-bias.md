@@ -52,7 +52,7 @@ For projects using AI-assisted development:
 
 - Linters and CI checks against the specific AI-typical surfaces (`print` in non-CLI code, magic numbers in config-shaped values, WHAT-narrating comments, `requests` without `timeout=`, f-string logger calls) are the practical cure
 - Codified guidance alone is insufficient (see [`codified-guidance-is-insufficient`](codified-guidance-is-insufficient.md)) — the cure is enforcement, not documentation
-- The relevant lint rules — ruff `G004` (f-string logging), bandit `S113` (requests without timeout), ruff `B006` (mutable default argument), `PLC0415` (lazy imports), `BLE001` (broad except) — should be enabled at CI gate
+- The relevant lint rules — ruff `G004` (f-string logging), bandit `B113` (requests without timeout), ruff `B006` (mutable default argument), `PLC0415` (lazy imports), `BLE001` (broad except) — should be enabled at CI gate
 
 For readers learning to audit AI-generated code:
 

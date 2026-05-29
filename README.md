@@ -37,7 +37,7 @@ The Mechanism sections use a small vocabulary from how language models work. Thr
 
 Most defects in the taxonomy come from these three forces together: the corpus-fluent shape wins the per-token decision, and consistency that would require looking outside the local window is not enforced at generation time. No further ML background is needed.
 
-## The 24 entries
+## The entries
 
 ### By surface (category)
 

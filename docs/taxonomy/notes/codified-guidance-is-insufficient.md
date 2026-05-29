@@ -30,7 +30,7 @@ Sixteen+ entries demonstrate this:
 The pattern is now visible across three forms of codification:
 
 1. **Project documentation (CLAUDE.md / AGENTS.md / constraints.yaml / style guides)** — aabtzu, Mzzkc, StefanBS, jobseek, ContentEngineAI, IBM — convention documented in a project-internal file; AI produces the violation anyway.
-2. **Community lint rules** — ruff `BLE001`, `B006`, `G004`, `PLC0415`; Pylint `W0102`, `W1203`; bandit `S113`, `B105`, `B110` — convention enforced by widely-adopted tooling; AI produces violations at unusual density.
+2. **Community lint rules** — ruff `BLE001`, `B006`, `G004`, `PLC0415`; Pylint `W0102`, `W1203`; bandit `B113`, `B105`, `B110` — convention enforced by widely-adopted tooling; AI produces violations at unusual density.
 3. **Within-codebase precedent** — same-project-knows-right-pattern instances where the *correct* idiom is the project's majority usage (4 of 5 Pydantic siblings; the rest of the codebase); the AI drifts despite the visible precedent.
 
 ## Mechanism

@@ -43,6 +43,22 @@ export async function getStats(): Promise<MyJobsStats> { ... }
 
 A developer or AI agent that imports `getStats` from the wrong path compiles cleanly and ships a dashboard with the wrong data. TypeScript's type system can't disambiguate the two `getStats` because both return JSON-shaped objects that pass each other's annotations.
 
+The same drift appears in Python — a `services/` package where the read functions split across `get`, `fetch`, and `load` for one role:
+
+```python
+# services/company.py  (most reads use this verb)
+def get_company_by_slug(slug: str) -> Company: ...
+def get_company_postings(company_id: str) -> list[Posting]: ...
+
+# services/bootstrap.py  (drifts to a second verb)
+def fetch_app_bootstrap() -> BootstrapData: ...
+
+# services/search.py  (a lone third verb)
+def load_more_postings(cursor: str) -> list[Posting]: ...
+```
+
+Python's duck typing makes the collision case quieter still: two `get_stats()` helpers in different modules — one returning `SiteStats`, one `MyJobsStats` — both satisfy whatever the caller does with the result, so `from services.stats import get_stats` vs `from services.my_jobs_stats import get_stats` is a one-import-path slip that ships the wrong dashboard with no error.
+
 The pattern has three captured sub-shapes:
 
 - **Function-naming verb-convention drift across sibling files** — `getX` vs `fetchX` vs `loadX` for what should be one verb. 30/6/1 counts across one `actions/` directory. Captured in colophon-group/jobseek#3237.
@@ -145,6 +161,6 @@ The diagnostic question for any candidate: *what convention should be consistent
 
 These mutations compose well with [`inconsistent-error-handling`](inconsistent-error-handling.md) (the error-specific version) and [`narrating-comments`](narrating-comments.md) (a codebase with convention drift often also has WHAT-narration drift — both are local-without-global-enforcement instances).
 
-**Connection to [`codified-guidance-is-insufficient`](../notes/codified-guidance-is-insufficient.md) note.** The jobseek specimen explicitly notes that the project's documentation site (`apps/web/docs/`) does not document the verb convention, and the prescribed fix is *both* documentation *and* eslint enforcement. Documentation alone is insufficient (per the multi-entry observation across this taxonomy); enforcement is the cure. This entry is one of 10+ in the cross-cutting note, with the diagnostic detail that *enforcement is the missing piece* — not just naming the convention but mechanically preventing drift.
+**Connection to [`codified-guidance-is-insufficient`](../notes/codified-guidance-is-insufficient.md) note.** The jobseek specimen explicitly notes that the project's documentation site (`apps/web/docs/`) does not document the verb convention, and the prescribed fix is *both* documentation *and* eslint enforcement. Documentation alone is insufficient (per the multi-entry observation across this taxonomy); enforcement is the cure. This entry is one of 16+ in the cross-cutting note, with the diagnostic detail that *enforcement is the missing piece* — not just naming the convention but mechanically preventing drift.
 
-**Connection to [`same-project-knows-right-pattern`](../notes/same-project-knows-right-pattern.md) note.** Convention drift is the project-wide version of the per-call-site observation seen in [`swapped-args`](swapped-args.md), [`wrong-tool-for-job`](wrong-tool-for-job.md), and [`sleep-based-synchronization`](sleep-based-synchronization.md). In those entries, the project uses the right pattern at one site and the wrong pattern at another; here, the project uses one *convention* at some sites and another *convention* at others. The local-vs-global tension is the same root mechanism applied at different scales (single-call-site vs whole-directory). The note formalizes this at 9 entries.
+**Connection to [`same-project-knows-right-pattern`](../notes/same-project-knows-right-pattern.md) note.** Convention drift is the project-wide version of the per-call-site observation seen in [`swapped-args`](swapped-args.md), [`wrong-tool-for-job`](wrong-tool-for-job.md), and [`sleep-based-synchronization`](sleep-based-synchronization.md). In those entries, the project uses the right pattern at one site and the wrong pattern at another; here, the project uses one *convention* at some sites and another *convention* at others. The local-vs-global tension is the same root mechanism applied at different scales (single-call-site vs whole-directory). The note formalizes this at 10 entries.

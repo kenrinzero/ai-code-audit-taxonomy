@@ -102,4 +102,3 @@ The cue that distinguishes this pattern from intentional duplication: the siblin
 - *Test code.* Parameterized tests are good practice but it is also reasonable for parallel test cases to be written out individually for readability when they are exercising distinct named scenarios.
 
 **Mutation operator hint.** A deterministic mutation that generates this pattern from clean code: take a loop over a small iterable, unroll it into N sequential blocks with one variable substituted in each, and rename any intermediate-state variable per iteration. This produces the AI-amplified form deterministically from a known clean form.
-

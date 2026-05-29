@@ -72,7 +72,7 @@ What the corpus contains less of, per-token, is the **production-grade form**:
 
 The model has seen all of these forms but the *frequency-weighted prior* favors the tutorial-minimal form. When the model generates an HTTP call in production code, the local-attention generation step produces `requests.get(url)` — the form that fits most surrounding tutorial-like context — rather than the production-hardened form.
 
-This is a direct instance of the **AI-pedagogical-bias** mechanism (see [`taxonomy/notes/ai-pedagogical-bias.md`](../notes/ai-pedagogical-bias.md)): the model defaults to patterns appropriate for tutorial/example code (no timeout — hanging is acceptable in a script) when the deployment context calls for the production alternative (explicit timeout — hanging is a denial-of-service).
+This is a direct instance of the **AI-pedagogical-bias** mechanism (see [`ai-pedagogical-bias`](../notes/ai-pedagogical-bias.md)): the model defaults to patterns appropriate for tutorial/example code (no timeout — hanging is acceptable in a script) when the deployment context calls for the production alternative (explicit timeout — hanging is a denial-of-service).
 
 The defect paths are real and varied:
 
@@ -116,7 +116,7 @@ Supplementary references:
 - **[KuechlerO/simple_baserow_api](https://github.com/KuechlerO/simple_baserow_api)** — "Missing timeout parameter on all HTTP requests" (2026-03-19) — scope-comprehensive sweep on a young codebase.
 - **[fossasia/eventyay](https://github.com/fossasia/eventyay)** — "Webhook HTTP Request Missing Timeout and Inconsistent Error Logging" (2026-04-26) — webhook-specific shape combined with inconsistent error logging (cross-link to [`inconsistent-error-handling`](inconsistent-error-handling.md)).
 - **[microsoft/agent-framework#5741](https://github.com/microsoft/agent-framework)** — synchronous tool execution including missing-timeout patterns; framework-level integration with the agent ecosystem. Adjacent specimen mentioned in [`sleep-based-synchronization`](sleep-based-synchronization.md) supplementary references.
-- **Bandit lint rule S113 and Ruff equivalent** exist precisely to catch this pattern (`requests` calls without `timeout=`). Wide community adoption; the AI-amplified observation is that the rule fires at unusual density on AI-generated code, paralleling the ruff PLC0415 observation in [`unjustified-lazy-import`](unjustified-lazy-import.md) and ruff G004 in [`f-string-in-logger-call`](f-string-in-logger-call.md).
+- **Bandit lint rule B113 and Ruff equivalent** exist precisely to catch this pattern (`requests` calls without `timeout=`). Wide community adoption; the AI-amplified observation is that the rule fires at unusual density on AI-generated code, paralleling the ruff PLC0415 observation in [`unjustified-lazy-import`](unjustified-lazy-import.md) and ruff G004 in [`f-string-in-logger-call`](f-string-in-logger-call.md).
 
 ## Detection cues
 
@@ -133,7 +133,7 @@ What to look for in a diff or completion:
 
 The diagnostic question for any HTTP/subprocess/blocking call: *what happens if this primitive hangs? Is there a higher-level timeout that would eventually kill it?* If the answer is "the calling thread hangs until the OS or load balancer kills it," the timeout is missing. If the answer is "I rely on the framework's deployment timeout (gunicorn worker timeout, Kubernetes liveness probe)," check whether that timeout is configured shorter than the longest plausible legitimate operation.
 
-Bandit `S113`, Ruff equivalent rule, and similar lint configurations catch the most common form (`requests.<method>` without `timeout=`) mechanically. Adding these to CI is the structural cure; documentation alone is observably insufficient (the IBM specimen in [`f-string-in-logger-call`](f-string-in-logger-call.md) and the Cogtrix same-project-knows-right-pattern shape both demonstrate this).
+Bandit `B113`, Ruff equivalent rule, and similar lint configurations catch the most common form (`requests.<method>` without `timeout=`) mechanically. Adding these to CI is the structural cure; documentation alone is observably insufficient (the IBM specimen in [`f-string-in-logger-call`](f-string-in-logger-call.md) and the Cogtrix same-project-knows-right-pattern shape both demonstrate this).
 
 ## Notes
 
@@ -161,7 +161,7 @@ Bandit `S113`, Ruff equivalent rule, and similar lint configurations catch the m
 
 These compose with [`sleep-based-synchronization`](sleep-based-synchronization.md) — a polling loop calling an external API with no per-call timeout is the maximally defective concurrent shape. Also composes with [`swallowed-exceptions`](swallowed-exceptions.md) — a missing-timeout call wrapped in `except Exception: pass` produces a silent indefinite hang that may eventually surface as a worker-pool starvation; logs show nothing, metrics show nothing, only the dropped throughput reveals the defect.
 
-**Connection to [`ai-pedagogical-bias`](../notes/ai-pedagogical-bias.md) note.** This entry is one of five members of the AI-pedagogical-bias meta-family: the model treats production code as if it were tutorial code, producing the tutorial-minimal HTTP/subprocess form rather than the production-hardened form. The family now spans `narrating-comments`, `print-instead-of-logging`, `hardcoded-config-values`, `missing-network-timeout`, `f-string-in-logger-call`, and `assert-for-runtime-validation`.
+**Connection to [`ai-pedagogical-bias`](../notes/ai-pedagogical-bias.md) note.** This entry is one of six members of the AI-pedagogical-bias meta-family: the model treats production code as if it were tutorial code, producing the tutorial-minimal HTTP/subprocess form rather than the production-hardened form. The family now spans `narrating-comments`, `print-instead-of-logging`, `hardcoded-config-values`, `missing-network-timeout`, `f-string-in-logger-call`, and `assert-for-runtime-validation`.
 
 **Connection to [`same-project-knows-right-pattern`](../notes/same-project-knows-right-pattern.md) note.** The Cogtrix specimen contributes another instance of this observation: `shell.py` and `http_request.py` know the right pattern; `github_tools.py` drifts. Per-module drift within a single codebase, surfaced by per-module attention context.
 

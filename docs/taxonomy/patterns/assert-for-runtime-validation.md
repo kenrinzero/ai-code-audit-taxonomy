@@ -66,7 +66,7 @@ The defective shape is over-represented per-token in three distinct corpus segme
 
 The model knows about `python -O` in the abstract — it can describe what the flag does when asked directly. What it does not do reliably during local generation is *choose* the `if`/`raise` form when the function's deployment context will be subject to `-O`. The model produces the corpus-canonical form (assert) regardless of whether the function will run under optimization.
 
-This is a direct instance of the **AI-pedagogical-bias** mechanism (see [`taxonomy/notes/ai-pedagogical-bias.md`](../notes/ai-pedagogical-bias.md)): tutorial/test corpus uses assert; production code under `-O` cannot use assert. The model inherits the tutorial style.
+This is a direct instance of the **AI-pedagogical-bias** mechanism (see [`ai-pedagogical-bias`](../notes/ai-pedagogical-bias.md)): tutorial/test corpus uses assert; production code under `-O` cannot use assert. The model inherits the tutorial style.
 
 The training corpus also contains explicit *warnings* against the pattern — Python documentation, security blogs, bandit's B101 rule. The model has seen the warnings. What the model has not internalized is *which class of code* (production vs test vs tutorial) the warning applies to. So the model produces asserts in production code and may simultaneously be capable of *explaining why that's wrong* if asked. The local-generation step does not consult the explanation.
 
