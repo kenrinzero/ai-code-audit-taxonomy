@@ -1,15 +1,21 @@
-# Builds the MkDocs Material site and deploys it to the gh-pages branch
-# on every push to master. Replaces the previous manual `mkdocs gh-deploy`
-# (which required mkdocs-material installed locally).
+# Checks consistency, then builds the MkDocs Material site and deploys it to
+# the gh-pages branch on push to master. Replaces the manual `mkdocs gh-deploy`.
 name: deploy-docs
 
 on:
   push:
     branches: [master]
-    # Only rebuild when something that affects the rendered site changes.
     paths:
       - "docs/**"
       - "mkdocs.yml"
+      - "scripts/**"
+      - ".github/workflows/deploy-docs.yml"
+  pull_request:
+    branches: [master]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "scripts/**"
       - ".github/workflows/deploy-docs.yml"
   workflow_dispatch: {} # allow manual runs from the Actions tab
 
@@ -17,7 +23,23 @@ permissions:
   contents: write # needed to push the built site to the gh-pages branch
 
 jobs:
+  # Fails the build if a previously-fixed inconsistency creeps back in
+  # (miscredited lint codes, placeholder links, orphaned refs, un-stripped
+  # internal content, or cross-cutting-note count drift).
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Consistency check
+        run: python scripts/check_consistency.py
+
+  # Only deploys after `check` passes, and never on pull requests.
   deploy:
+    needs: check
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
