@@ -76,7 +76,7 @@ Three concrete failure paths are visible in the captured specimens:
 
 **Path 2: Defect-direct deployment failure.** keboola/mcp-server has bare asserts in `WorkspaceManager._create_ws` validating SAPI job response shapes. Production Docker images set `PYTHONOPTIMIZE=1` which strips the asserts. The next line (`resp['id']`) then raises a confusing `KeyError` instead of the asserted diagnostic message. **Additionally**, even with asserts active, `AssertionError` is *not* caught by the project's `@tool_errors()` decorator (which formats `ValidationError` and `jsonschema.ValidationError`); the exception propagates unmodified through to the agent. This is **defect-direct under production optimization**.
 
-**Path 3: External-data-validation asserts in 17+ sites across 9 files.** NodeJSmith/hassette has asserts validating WebSocket API responses, scheduler invariants, and event bus state across 9 production files. The audit (bot-authored `app/jessica-claude` audit) explicitly observes: *"The API response assertions are especially dangerous — they validate external data."* External-data assertions stripped under `-O` allow malformed payloads to flow into downstream code unchecked.
+**Path 3: External-data-validation asserts in 17 sites across 9 files.** NodeJSmith/hassette has asserts validating WebSocket API responses, scheduler invariants, and event bus state across 9 production files. The audit (bot-authored `app/jessica-claude` audit) explicitly observes: *"The API response assertions are especially dangerous — they validate external data."* External-data assertions stripped under `-O` allow malformed payloads to flow into downstream code unchecked.
 
 The pattern is **AI-amplified, not AI-exclusive**. Human Python programmers write asserts in production constantly — particularly beginners, particularly when prototyping. The AI-amplified differential rests on:
 
@@ -92,7 +92,7 @@ Three captured specimens, each from a different AI-coded Python codebase, each i
 - **[keboola/mcp-server#507](https://github.com/keboola/mcp-server/issues/507)** — defect-direct under production optimization. Bare asserts in `WorkspaceManager._create_ws` get stripped under `PYTHONOPTIMIZE=1` (common in production Docker images). Additionally, `AssertionError` isn't caught by the project's `@tool_errors()` decorator. CLAUDE.md (5304 bytes) describes a Linear-issue-ID-tagged Git workflow. Severity: HIGH. Audit framework: "Audit life situation: LS-15" / "K-7" / "ISSUE-06" — structured batch-driven calibrated audit.
 - **[NodeJSmith/hassette#417](https://github.com/NodeJSmith/hassette/issues/417)** — external-data-validation across 17 production sites. 17 `assert` statements in 9 non-test files (`api/api.py`, `core/websocket_service.py`, `core/scheduler_service.py`, `core/bus_service.py`, `bus/bus.py`). The audit framework is *"jessica-claude comprehensive codebase audit"* — bot-authored (`app/jessica-claude`) with linked audit-deliverable reports (`design/audits/2026-03-25-comprehensive-audit/`). CLAUDE.md (17020 bytes).
 
-Three different scales (2,693 / dozens / 17), three different defect surfaces (general production-vs-test review at scale / specific PYTHONOPTIMIZE-stripping defect chain / external-data-assertion across production files), three different audit framings (Claude-engine Static Analysis cron / structured calibrated audit with LS/K codes / jessica-claude bot-authored comprehensive audit).
+Three different scales (2,693 / a handful / 17), three different defect surfaces (general production-vs-test review at scale / specific PYTHONOPTIMIZE-stripping defect chain / external-data-assertion across production files), three different audit framings (Claude-engine Static Analysis cron / structured calibrated audit with LS/K codes / jessica-claude bot-authored comprehensive audit).
 
 Supplementary references:
 
@@ -130,7 +130,7 @@ Bandit's `B101` (`assert_used`) catches the pattern mechanically. Pre-commit / C
 
 - *Test code.* `assert` is the canonical pytest assertion. Test files (`test_*.py`, `*_test.py`, `tests/`) legitimately use assert everywhere.
 - *Type-narrowing-only asserts where the runtime check is provided elsewhere.* `assert isinstance(x, T)` followed by code that depends on T's interface — if a separate runtime check ensures the type, the assert is just helping mypy/pyright. Distinguish carefully.
-- *Internal-invariant asserts in *non*-production deployment contexts.* CLI tools, offline scripts, Jupyter notebooks — these typically run without `-O`. Asserts here behave as expected. Production-only deployment is the cue.
+- *Internal-invariant asserts in **non**-production deployment contexts.* CLI tools, offline scripts, Jupyter notebooks — these typically run without `-O`. Asserts here behave as expected. Production-only deployment is the cue.
 - *Asserts intentionally used as test scaffolding.* Some debug-only diagnostic code uses asserts deliberately to make stripping cheap. The cue is whether the code path is meant to be exercised in production.
 - *`@beartype` or runtime-typeguard-decorated functions.* If the project uses a runtime type-checking decorator, the type validation is provided by the decorator, and assert-isinstance lines may be redundant rather than load-bearing.
 

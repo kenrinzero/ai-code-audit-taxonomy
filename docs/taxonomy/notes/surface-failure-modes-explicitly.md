@@ -52,7 +52,7 @@ The four cures converge on a single piece of advice:
 
 This is consistent with the `swallowed-exceptions` evergreen and is the implicit theme of half the taxonomy. Defensive code that *actually* handles failures looks structurally different from defensive code that *appears* to handle failures:
 
-- Real defensive code defines a typed exception, or returns a structured Result/Either type, or raises with a clear cause chain.
+- Real defensive code defines a typed exception, or returns a structured Result/Either type (a return value that explicitly carries either a success or a failure, rather than a bare value or a thrown exception), or raises with a clear cause chain.
 - AI-amplified defensive code adds a guard, a substring check, a sentinel value, or a `try/except: pass` — shapes that *look* defensive but cannot actually distinguish or convey the failure.
 
 The cure prescription is the same across all four entries: replace the *shape* with the *substance*. Define the typed exception, raise it at the throw site, catch it by type, let it propagate when the calling code should respond.

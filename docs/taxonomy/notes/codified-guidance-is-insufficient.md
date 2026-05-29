@@ -88,6 +88,6 @@ With 16+ entries participating, this is the most broadly-connected note in the t
 
 Two sub-shapes sit close to the surface of this note:
 
-1. **Rule-silenced-rather-than-fixed** (`# noqa: BLE001` × 1066 in pollypm; `# noqa: F401` × 388 in microsoft/apm; mixed `noqa` + `type: ignore` in Red Hat AI sdg_hub; mixed `nosec` + `noqa` in endavis/infrafoundry) — currently a sub-pattern within swallowed-exceptions.
+1. **Rule-silenced-rather-than-fixed** (`# noqa: BLE001` × 1,066 in pollypm; `# noqa: F401` × 388 in microsoft/apm; mixed `noqa` + `type: ignore` in Red Hat AI sdg_hub; mixed `nosec` + `noqa` in endavis/infrafoundry) — currently a sub-pattern within swallowed-exceptions.
 
 2. **Partial-fix-propagation** (IBM precursor #1837 → broader migration unaddressed; Dagster prior #17831 → developer-CLI path unaddressed; coachiq PR A6 → SecurityWebSocketHandler-and-dashboard sites explicitly deferred) — its own note: [`partial-fix-propagation`](partial-fix-propagation.md).

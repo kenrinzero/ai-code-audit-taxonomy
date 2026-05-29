@@ -12,7 +12,7 @@ evidence_grade: observed
 ## Code example
 
 ```python
-def fetch_document(source: str) -> bytes:
+async def fetch_document(source: str) -> bytes:
     import hashlib
     import aiohttp
 
@@ -38,7 +38,7 @@ import hashlib
 import aiohttp
 
 
-def fetch_document(source: str) -> bytes:
+async def fetch_document(source: str) -> bytes:
     digest = hashlib.sha256(source.encode()).hexdigest()
     async with aiohttp.ClientSession() as session:
         ...
@@ -63,7 +63,7 @@ There is also a self-reinforcing local pattern within a single generation sessio
 
 The training corpus may also be slightly biased toward function-scope imports relative to a representative production-code sample — tutorial code and minimal reproducer examples often place imports near their use sites for pedagogical clarity, even when the same code in a real codebase would not. The model's prior for "where does an import go" is consequently softer than it would be in a corpus dominated by production code.
 
-This pattern is the **import-topology cousin of the [`swallowed-exceptions`](swallowed-exceptions.md) evergreen** — both involve defensive-shaped code disconnected from purpose. Swallowed exceptions paper over an unknown failure mode; unjustified lazy imports paper over an unknown import topology. In both cases the surface form is recognizable, the underlying diagnostic step is the one the model skipped.
+This pattern is the **import-topology cousin of the [`swallowed-exceptions`](swallowed-exceptions.md) evergreen** — both involve defensive-shaped code disconnected from purpose. Swallowed exceptions paper over an unknown failure mode; unjustified lazy imports paper over an unknown import topology. In both cases the surface form is recognizable; the underlying diagnostic step is the one the model skipped.
 
 The pattern is **AI-amplified, not AI-exclusive**. Human-written codebases also contain lazy imports — sometimes for legitimate reasons, sometimes from cargo-cult Stack Overflow advice. The honest claim is volume and clustering: AI-generated codebases tend to produce many lazy imports without justification (101 instances in one rag-lab codebase; 12 in aabtzu's; clusters of 5-9 in single files) where human-written codebases produce them sparsely, at architectural seams. Ruff's `PLC0415` lint rule exists precisely because the broader Python community has recognized this pattern as a hygiene concern independent of AI authorship; the AI-amplified observation is that the rule fires at significantly higher density on AI-generated code.
 

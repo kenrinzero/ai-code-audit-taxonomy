@@ -57,7 +57,7 @@ def fetch_app_bootstrap() -> BootstrapData: ...
 def load_more_postings(cursor: str) -> list[Posting]: ...
 ```
 
-Python's duck typing makes the collision case quieter still: two `get_stats()` helpers in different modules — one returning `SiteStats`, one `MyJobsStats` — both satisfy whatever the caller does with the result, so `from services.stats import get_stats` vs `from services.my_jobs_stats import get_stats` is a one-import-path slip that ships the wrong dashboard with no error.
+Python's duck typing (it never checks an object's declared type, only whether it supports the operations used on it) makes the collision case quieter still: two `get_stats()` helpers in different modules — one returning `SiteStats`, one `MyJobsStats` — both satisfy whatever the caller does with the result, so `from services.stats import get_stats` vs `from services.my_jobs_stats import get_stats` is a one-import-path slip that ships the wrong dashboard with no error.
 
 The pattern has three captured sub-shapes:
 

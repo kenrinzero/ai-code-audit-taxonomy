@@ -33,7 +33,7 @@ The justifying comment is doing three jobs poorly:
 The most diagnostic instances make the unreliability explicit:
 
 - `# hope discovery completes` (aios) — the author wrote *hope* in the comment. The wager is acknowledged in prose; the code itself is the unsafe primitive.
-- `# Using TAG instead of TEXT for Valkey compatibility` (mempalace) — the comment narrates a constraint that is verifiable and turns out to be false.
+- `# Using TAG instead of TEXT for Valkey compatibility` (mem0) — the comment narrates a constraint that is verifiable and turns out to be false.
 - `# Memory is optional` (hermes-agent) — the comment narrates a design intent; the code's `except Exception: pass` does not distinguish "memory was optional and not configured" from "memory was meant to work and broke."
 
 In all three, the comment performs a function the *code should have performed*: distinguish the intentional case from the broken case, verify the constraint, or use a primitive that does not need a hopeful explanation.

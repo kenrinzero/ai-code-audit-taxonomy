@@ -21,7 +21,7 @@ def install_archive(archive_path: str, install_dir: str) -> None:
 
 The function looks fluent. The archive is opened with the canonical `with` block; the extraction is one line. For trusted archives the function works perfectly.
 
-The defect is invisible until the archive is attacker-controlled. A malicious tar file can contain entries with paths like `../../etc/passwd` (relative traversal) or absolute paths like `/root/.ssh/authorized_keys`. `tarfile.extractall(install_dir)` writes each entry to its declared path — *outside* `install_dir` if the declared path traverses up. This is **CVE-2007-4559**, also known as "zip slip" (though the original CVE is for tar). The CVE has been open in Python's tarfile module for nearly 20 years.
+The defect is invisible until the archive is attacker-controlled. A malicious tar file can contain entries with paths like `../../etc/passwd` (relative traversal) or absolute paths like `/root/.ssh/authorized_keys`. `tarfile.extractall(install_dir)` writes each entry to its declared path — *outside* `install_dir` if the declared path traverses up. This is **CVE-2007-4559**, the canonical path-traversal flaw in Python's `tarfile` module; the broader archive-extraction flaw class across formats was later popularized by Snyk (2018) as "Zip Slip". The CVE has been open for nearly 20 years.
 
 Python 3.12 (PEP 706, 2024) added `tarfile.data_filter` as the recommended safe-extraction approach. The tightened version becomes a one-line fix:
 
@@ -106,7 +106,7 @@ Supplementary references:
 - **alephdata/memorious** — `memorious/operations/extract.py` in a web-scraping toolkit. Adjacent specimen; same batch-audit shape.
 - **crate/crate-python** — `src/crate/testing/layer.py`. Adjacent specimen; same batch-audit shape.
 
-Bandit has rule **B202** (`tarfile_unsafe_members`). Python 3.12 added `tarfile.data_filter` (PEP 706); Python 3.12+ emits a DeprecationWarning for `extractall()` without a filter; Python 3.14+ is scheduled to make it an error. Wide community recognition; the AI-amplified observation is that AI-generated code continues to produce the pre-filter form despite the deprecation roadmap.
+Bandit has rule **B202** (`tarfile_unsafe_members`). Python 3.12 added `tarfile.data_filter` (PEP 706); Python 3.12+ emits a DeprecationWarning for `extractall()` without a filter; in Python 3.14+ the default changes so an unfiltered `extractall()` applies the safe `data` filter automatically. Wide community recognition; the AI-amplified observation is that AI-generated code continues to produce the pre-filter form despite the deprecation roadmap.
 
 ## Detection cues
 

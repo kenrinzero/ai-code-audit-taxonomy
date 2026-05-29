@@ -110,7 +110,7 @@ Bandit has rule **B608** (`hardcoded_sql_expressions`); semgrep has equivalent r
 
 What to look for in a diff or completion:
 
-- **`cursor.execute(f"...")` / `cursor.execute(sql.format(...))` / `cursor.execute("..." + var + "...")` ** — any string-built SQL in the execute call. The most direct signal.
+- **`cursor.execute(f"...")` / `cursor.execute(sql.format(...))` / `cursor.execute("..." + var + "...")`** — any string-built SQL in the execute call. The most direct signal.
 - **f-string SQL in agent tool functions.** Files in `tools/`, `agents/*/tools/`, or similarly-named directories of LangGraph / LangChain / agentic-framework projects. The trust boundary makes this the highest-stakes surface.
 - **SQL-building helper functions that take user-derivable parameters.** A function that takes `query_text`, `user_input`, `filter_value`, or similar and constructs SQL by interpolation. Even if today's caller passes safe constants, the function is reachable from user-controlled paths.
 - **Multi-channel interpolation where channels have different defense needs.** A SQL-building function that takes both *identifiers* (column names, table names) and *values* — the identifiers cannot use parameter binding (SQL syntax forbids it) and need allow-list validation; the values must use parameter binding. If both are f-stringed, the function is schema-blind.

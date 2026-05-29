@@ -33,7 +33,7 @@ def estimate_tokens_from_length(text_length: int) -> int:
     return text_length // CHARS_PER_TOKEN
 ```
 
-The precondition is documented; bad input now propagates loudly through normal Python error mechanics (negative slicing, ZeroDivisionError, etc.); the call surface is one line shorter.
+The precondition is documented; the function now trusts its caller — the right stance for an internal helper called only after validation — and the call surface is one line shorter.
 
 The unreachable-guard form has two adjacent sub-shapes that share the same root mechanism: **double guards** where two overlapping checks exist and one fully subsumes the other (the second guard is unreachable as the *sole* reason a condition is satisfied), and **isinstance checks added to production code to handle test-mock pollution** rather than fixing the tests. Both are documented in Notes; both are visible in the captured specimens.
 
@@ -64,7 +64,7 @@ Two additional audit-framework references identify the pattern abstractly withou
 - [oliverhaas/django-cachex#86](https://github.com/oliverhaas/django-cachex/issues/86) (the AI-smell-checklist audit) lists as a remediation item: *"Audit defensive null-checks. Remove ones in code paths where the caller can't realistically pass `None`."*
 - [aabtzu/libertas-travel#48](https://github.com/aabtzu/libertas-travel/issues/48) (the AI-tell remediation audit) includes in its AI-tells table: *"Defensive null checks in places where the caller can't pass null"* with the framing *"'Belt and suspenders' reads as un-confident code."*
 
-The three primary specimens plus two audit-framework convergences gives five independent identifications of the pattern across five different Python projects, using audit frameworks that include "slop review", "Panel Review / phase-gate", explicit coding guidelines, "AI-smell checklist", and "AI-tell remediation". Cross-context coverage is broad.
+The three primary specimens plus two audit-framework convergences give five independent identifications of the pattern across five different Python projects, using audit frameworks that include "slop review", "Panel Review / phase-gate", explicit coding guidelines, "AI-smell checklist", and "AI-tell remediation". Cross-context coverage is broad.
 
 ## Detection cues
 

@@ -19,7 +19,7 @@ Each entry also documents **false-positive shapes** — what looks like the patt
 
 ## How to use this
 
-**If you review AI-generated code:** scan the Detection cues sections. Most are grep-able (`except Exception: pass`, `requests.get(` without `timeout=`, `logger.info(f\"`). Start with the entries rated `difficulty: low` — they have the highest signal-to-effort ratio.
+**If you review AI-generated code:** scan the Detection cues sections. Most are grep-able (`except Exception: pass`, `requests.get(` without `timeout=`, `logger.info(f"`). Start with the entries rated `difficulty: low` — they have the highest signal-to-effort ratio.
 
 **If you build or configure AI coding tools:** the Mechanism sections explain *why* each pattern recurs. The cross-cutting note [codified-guidance-is-insufficient](taxonomy/notes/codified-guidance-is-insufficient.md) documents why CLAUDE.md / AGENTS.md conventions alone don't prevent these — enforcement via lint rules and CI is the cure.
 

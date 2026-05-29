@@ -90,7 +90,7 @@ Supplementary audit-framework convergence: oliverhaas/django-cachex#86's remaini
 What to look for in a diff or completion:
 
 - **`if "<some-string>" in str(e)` or `if "<some-string>" in str(exc).lower()` inside an `except` block.** The most direct signal. Particularly suspect when the string is in English and the failure mode being discriminated could plausibly come from non-English-locale code paths (Redis-server messages, OS error messages, third-party SDK errors).
-- **Multiple cascading substring checks against one stringified exception.** `if "disabled_client" in err_str or "invalid_client" in err_str: ...` — three or more substring checks against the same message is a strong signal that what should be three exception types or a structured-attribute dispatch has been collapsed into the message layer.
+- **Multiple cascading substring checks against one stringified exception.** `if "disabled_client" in err_str or "invalid_client" in err_str: ...` — multiple substring checks against the same message is a strong signal that what should be three exception types or a structured-attribute dispatch has been collapsed into the message layer.
 - **A typed exception class that exists in the module but is not raised at the relevant throw site.** Grep for the class's definition; check `git log -S` on the class name. If the class was defined and is only raised by a *catcher* (a re-raise) rather than at the source of the underlying error, the half-implemented form of this pattern is present.
 - **An `except Exception` clause that contains substring discrimination.** The `except Exception` catch-all is itself a partial signal (catching everything is rarely the intent); the *combination* of catch-all + substring discrimination strongly suggests the model produced this rather than a structured try/except hierarchy. The hermes-agent specimen has this shape.
 - **A test that asserts the same substring the production code matches against.** A test like `assert "cap" in response.detail["message"].lower()` paired with production code that uses `"cap" in message.lower()` is the meridianiq#117 shape: the test agrees with itself; a refactor of the wording breaks both at once and the test cannot warn you.
@@ -116,7 +116,7 @@ The diagnostic question for any candidate: *what is the contract that this subst
 
 - Take an `except SpecificError:` clause and replace with `except SuperType as e: if "<message>" in str(e):`
 - Take a function that raises a typed exception and change the raise site to `raise ValueError(f"Message about <thing>")`, then update one caller to discriminate by substring
-- Add a third overload to a typed exception so the same class now signals two distinct failure modes, then add a substring check at one call site to discriminate
+- Overload a typed exception class so it signals a second distinct failure mode, then add a substring check at one call site to discriminate the two
 
 These compose well with `inconsistent-error-handling` — a mutation that introduces three sibling adapters where one uses typed exceptions and two use substring matching produces the most dense AI-tell shape.
 

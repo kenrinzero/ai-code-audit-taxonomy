@@ -19,7 +19,7 @@ This is the single most load-bearing cross-cutting observation in the taxonomy's
 | [`f-string-in-logger-call`](../patterns/f-string-in-logger-call.md) | gen-ai-ops codebase uses `%`-style consistently | One file (`client_routes.py:28`) drifts to f-string |
 | [`async-await-mismatch`](../patterns/async-await-mismatch.md) | Prior PR A6 in coachiq fixed missing-awaits at v1→v2 cutover sites | SecurityWebSocketHandler stats + recent-events sites left unfixed; partial-fix-propagation extends with a third specimen |
 
-Across these entries the observation scales from single-call-site (swapped-args) to per-file (print-instead-of-logging) to per-directory (convention-drift) to per-module (hardcoded-config-values). The fix-PR-boundary variant — the right pattern at sites a prior fix touched, the wrong pattern at sibling sites — has been promoted to its own note: [`partial-fix-propagation`](partial-fix-propagation.md).
+Across these entries the observation scales from single-call-site (swapped-args) to per-file (print-instead-of-logging) to per-directory (convention-drift) to per-module (hardcoded-config-values).
 
 One adjacent sub-shape is well-attested: **Pydantic / framework-specific drift**: the right pattern is a framework idiom (Pydantic's `Field(default_factory=...)`, Flask's `render_template`, etc.); the wrong pattern is the language-level shortcut. Captured in mutable-default-arguments (Quibo) where four Pydantic siblings use `Field(default_factory=list)` and one drifts to `List[str] = []`.
 

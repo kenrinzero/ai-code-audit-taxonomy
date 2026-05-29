@@ -1,6 +1,6 @@
 ---
 name: <kebab-case-slug>
-category: <a surface where the defect manifests; see existing categories — `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`, `library-usage`, `async`, `consistency`, `observability`, `configuration`, `language-pitfall`, `reliability` — or introduce a new one when no existing category fits>
+category: <a surface where the defect manifests; see existing categories — `structure`, `testing`, `defensive-programming`, `error-handling`, `control-flow`, `documentation`, `library-usage`, `async`, `consistency`, `observability`, `configuration`, `language-pitfall`, `reliability`, `security` — or introduce a new one when no existing category fits>
 difficulty: <low | medium | high>
 generation: <evergreen | current-model>
 since_model: <only for current-model — e.g. "claude-opus-4-6"; null for evergreen>
