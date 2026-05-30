@@ -35,6 +35,10 @@ jobs:
           python-version: "3.12"
       - name: Consistency check
         run: python scripts/check_consistency.py
+      - name: Install MkDocs Material
+        run: pip install "mkdocs-material==9.7.6"
+      - name: Strict build (catches broken links, missing files, and nav orphans)
+        run: mkdocs build --strict
 
   # Only deploys after `check` passes, and never on pull requests.
   deploy:

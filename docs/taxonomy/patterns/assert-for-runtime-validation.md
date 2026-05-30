@@ -99,7 +99,6 @@ Supplementary references:
 - **[sktime/sktime#10202](https://github.com/sktime/sktime/issues/10202)** — major Python ML framework with assert statements in production validation. Captured as adjacent reference; AI-authorship of the underlying code is uncertain (project is multiple years old).
 - **[XRPLF/xrpl-py#983](https://github.com/XRPLF/xrpl-py/issues/983)** — XRPL Python library binary-codec assertions; "AI Triage" label indicates AI-driven *audit* but the underlying code is from an established library.
 - **[gc-os-ai/pyaptamer#353](https://github.com/gc-os-ai/pyaptamer/issues/353)** — `PositionalEncoding.forward()` uses `assert x.shape[1] <= self.max_len`. Transformer architecture component; project ~1 year old; no CLAUDE.md visible.
-- **[siege-analytics/siege_utilities](https://github.com/siege-analytics/siege_utilities)** has an open PR adding bandit B101 checks to pre-commit hooks as preventive enforcement — community recognition.
 
 Bandit has rule **B101** (`assert_used`) and Ruff has equivalent rules. Both are widely-adopted lint rules; the AI-amplified observation is the unusual density at which they fire on AI-generated code.
 

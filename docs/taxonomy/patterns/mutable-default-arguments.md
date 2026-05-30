@@ -37,14 +37,14 @@ process({"overrides": {"a": 1}})        # options is now {"a": 1}
 process({"overrides": {"b": 2}})        # options is now {"a": 1, "b": 2}  <-- "a" leaked
 ```
 
-The Pydantic v2 form is the same trap with a slightly different surface:
+Pydantic v2 surfaces a *related* convention smell — a bare mutable default where the idiomatic form is `Field(default_factory=...)`:
 
 ```python
 from pydantic import BaseModel
 from typing import List
 
 class State(BaseModel):
-    errors: List[str] = []           # mutable default; can leak state across instances
+    errors: List[str] = []           # bare mutable default — Pydantic deep-copies it per instance (no leak), but Field(default_factory=list) is the idiomatic form
 ```
 
 The Pydantic-correct form uses `Field(default_factory=list)`:
@@ -127,7 +127,7 @@ What to look for in a diff or completion:
 
 - **Function signature with `=[]`, `={}`, `=set()`, `=dict()`, `=list()`, or any object-constructor as a default value.** The most direct signal. The constructor variant (`=dict()`) is subtly worse because it looks like it should produce a fresh dict — but the constructor is also evaluated once at function-definition time.
 - **A function signature with `Optional[<container>] = <empty_container>` (mismatch between type and default).** The annotation says the parameter is optional (admitting `None`) but the default is an empty container, not `None`. The model produced an internally-inconsistent signature; check whether the body assumes the parameter is `None` or assumes it is the empty container.
-- **Pydantic model field with `<container_type> = <empty_container>`** (e.g., `List[str] = []`, `Dict[str, Any] = {}`). The Pydantic-correct form is `Field(default_factory=<callable>)`. In Pydantic v2 the bare-default form can produce shared state across instances depending on field configuration.
+- **Pydantic model field with `<container_type> = <empty_container>`** (e.g., `List[str] = []`, `Dict[str, Any] = {}`). The Pydantic-correct form is `Field(default_factory=<callable>)`. In Pydantic v2 the bare-default form does *not* leak across instances — Pydantic deep-copies the default for each model — but it drifts from the idiomatic `Field(default_factory=...)` and still reads as a mutable-default smell.
 - **Clusters of same-template defaults across sibling methods.** Multiple `static` or `def` methods in one class all using the same parameter signature with a mutable default. The sticky-local-pattern signature.
 - **Sibling state classes where most use `Field(default_factory=...)` but one uses bare `[]` / `{}`.** Same-project-knows-right-pattern; the drifting class is the suspect.
 - **Function bodies that call `.pop()`, `.append()`, `.extend()`, `.update()`, or `.clear()` on a parameter that has a mutable default.** Direct drain path; the defect is *active*, not just latent.

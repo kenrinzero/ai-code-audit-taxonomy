@@ -36,6 +36,9 @@ The `filter='data'` argument (also `'tar'` and `'fully_trusted'` exist) tells Py
 On pre-Python-3.12 (the codebase may need to support older versions), the cure is a manual safe-extract wrapper:
 
 ```python
+import os
+import tarfile
+
 def safe_extract(tar: tarfile.TarFile, path: str = ".") -> None:
     abs_dest = os.path.realpath(path)
     for member in tar.getmembers():
@@ -113,7 +116,7 @@ Bandit has rule **B202** (`tarfile_unsafe_members`). Python 3.12 added `tarfile.
 What to look for in a diff or completion:
 
 - **`tar.extractall(path)` or `tarfile.open(...).extractall(path)` without a `filter=` argument.** The most direct signal. Python 3.12+ should always use `filter='data'`; pre-3.12 should use a manual safe_extract wrapper.
-- **`zipfile.ZipFile(path).extractall(dest)`** — same defect class for ZIP archives. Python 3.12 also added a filter mechanism for zipfile (though less commonly used). Path traversal applies equally.
+- **`zipfile.ZipFile(path).extractall(dest)`** — the ZIP analogue, with an important asymmetry: `zipfile.extractall` already sanitizes member paths (it strips leading slashes and drops `..` components), and PEP 706 deliberately did *not* add a `filter=` mechanism for `zipfile`. So the tarfile cure (`filter='data'`) does not exist for ZIPs; still treat untrusted ZIP extraction with care, but the built-in path handling differs.
 - **Archive-extracting code in artifact-store, paper-processing, model-registry, or dataset-fetching contexts.** These are the AI-typical surfaces where untrusted archives flow.
 - **Auto-installer / package-manager code that downloads tarballs from a URL.** The download URL is the trust boundary; a compromised mirror / MITM allows malicious archives.
 - **Functions whose archive input comes from user upload, third-party API, or external storage.** The trust boundary is *whoever can produce an archive that ends up in this function* — verify by tracing the data flow to the function's archive parameter.

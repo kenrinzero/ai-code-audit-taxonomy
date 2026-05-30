@@ -1,0 +1,4 @@
+# Normalize line endings to LF on commit so Windows/WSL editors don't reintroduce
+# CRLF churn (the phantom "deploy gap" diagnosed in AUDIT_2026-05-30.md). Binary
+# files are auto-detected by `text=auto` and left untouched.
+* text=auto eol=lf

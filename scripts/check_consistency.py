@@ -94,12 +94,16 @@ COUNT_NOTES = [
     "same-project-knows-right-pattern",
     "codified-guidance-is-insufficient",
     "defensive-choice-with-justifying-comment",
+    "surface-failure-modes-explicitly",
+    "partial-fix-propagation",
 ]
 
 # headline phrasings -> capture the count token
 HEADLINE_RX = [
     re.compile(r"appears in \*\*([\w-]+)\*\* entries"),
     re.compile(r"^([\w+-]+) entries (?:currently )?demonstrate", re.M),
+    re.compile(r"^([\w+-]+) taxonomy entries", re.M),       # surface-failure-modes-explicitly
+    re.compile(r"with ([\w+-]+) specimens across", re.M),   # partial-fix-propagation
 ]
 
 canonical = {}
@@ -166,4 +170,4 @@ if errors:
         print(f"  - {e}")
     print(f"\n{len(errors)} problem(s).")
     sys.exit(1)
-print("Consistency check passed: lint codes, links, and cross-cutting-note counts are consistent.")
+print("Consistency check passed: lint codes, forbidden strings, and cross-cutting-note counts are consistent.")

@@ -52,7 +52,7 @@ Across the captured specimens, the prescribed fix is consistently *enforcement* 
 - jobseek prescribes both documentation *and* an eslint rule
 - pollypm has ruff `BLE001` enabled — the rule fired 1,066 times and was silenced via `# noqa`; the cure is removing the noqa annotations
 - ContentEngineAI prescribes migration to Pydantic with `extra = "forbid"` — load-time validation that fails on misspelled keys
-- IBM prescribes adding `G004` to `.pre-commit-config.yaml` plus a one-shot codemod (`flynt` or libcst)
+- IBM prescribes adding `G004` to `.pre-commit-config.yaml` plus a one-shot codemod (`lazy-log-formatter` or libcst)
 - LlamaFactory's ruff config already includes general rules; the cure is enabling B006 specifically
 - Multiple specimens recommend pre-commit hooks, CI checks, or type-error-producing constructs
 

@@ -66,7 +66,7 @@ A language model generates each network/subprocess/IO call in a local context. T
 What the corpus contains less of, per-token, is the **production-grade form**:
 
 - `requests.get(url, timeout=30)` or `timeout=(5, 30)` — explicit timeout
-- Wrapped in a session with default timeout: `session = requests.Session(); session.timeout = 30`
+- Wrapped with a custom transport adapter that injects a default timeout — a subclassed `requests.adapters.HTTPAdapter` whose `send()` supplies `timeout=` when the caller omits it. (Note: a plain `session.timeout = 30` on a `requests.Session` is silently ignored — `Session` has no honored `timeout` attribute — so it is *not* a valid way to set a default.)
 - With error handling for the timeout exception: `try: ...; except requests.Timeout: ...`
 - Retry-with-backoff using `urllib3.util.retry.Retry` or `tenacity`
 

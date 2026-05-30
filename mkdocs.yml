@@ -4,6 +4,11 @@ site_url: https://kenrinzero.github.io/ai-code-audit-taxonomy
 repo_url: https://github.com/kenrinzero/ai-code-audit-taxonomy
 repo_name: kenrinzero/ai-code-audit-taxonomy
 
+# The entry template is internal scaffolding — keep it out of the built site,
+# its search index, and its sitemap (it is intentionally absent from the nav).
+exclude_docs: |
+  taxonomy/_template.md
+
 theme:
   name: material
   palette:
