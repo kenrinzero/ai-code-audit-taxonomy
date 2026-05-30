@@ -1,0 +1,2479 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="AI-typical code defect patterns in Python — mechanism, evidence, detection cues">
+      
+      
+      
+        <link rel="canonical" href="https://kenrinzero.github.io/ai-code-audit-taxonomy/taxonomy/patterns/string-built-sql/">
+      
+      
+        <link rel="prev" href="../brittle-error-detection/">
+      
+      
+        <link rel="next" href="../shell-true-subprocess-injection/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>String-Built SQL - AI Code Audit Taxonomy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#string-built-sql" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="AI Code Audit Taxonomy" class="md-header__button md-logo" aria-label="AI Code Audit Taxonomy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Code Audit Taxonomy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              String-Built SQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/kenrinzero/ai-code-audit-taxonomy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kenrinzero/ai-code-audit-taxonomy
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="AI Code Audit Taxonomy" class="md-nav__button md-logo" aria-label="AI Code Audit Taxonomy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Code Audit Taxonomy
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/kenrinzero/ai-code-audit-taxonomy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    kenrinzero/ai-code-audit-taxonomy
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Patterns
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Patterns
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Error Handling
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Error Handling
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../swallowed-exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swallowed Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inconsistent-error-handling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inconsistent Error Handling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brittle-error-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brittle Error Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String-Built SQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    String-Built SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#code-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence / incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-cues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection cues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shell-true-subprocess-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shell=True Subprocess Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tarfile-extractall-without-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tarfile Extractall Without Filter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reliability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reliability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../missing-network-timeout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Missing Network Timeout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resource-leak-no-context-manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resource Leak — No Context Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Async
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../async-await-mismatch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async-Await Mismatch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sleep-based-synchronization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sleep-Based Synchronization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../print-instead-of-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Print Instead of Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-string-in-logger-call/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F-String in Logger Call
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Flow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Control Flow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-by-one/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Off-by-One
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../swapped-args/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swapped Args
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Structure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../near-identical-siblings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Near-Identical Siblings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unjustified-lazy-import/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unjustified Lazy Import
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language Pitfall
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Language Pitfall
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mutable-default-arguments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mutable Default Arguments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assert-for-runtime-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assert for Runtime Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardcoded-config-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hardcoded Config Values
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_10" id="__nav_2_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consistency
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consistency
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../convention-drift/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Convention Drift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../narrating-comments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Narrating Comments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_12" id="__nav_2_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Testing
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../weak-test-assertion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weak Test Assertion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_13" id="__nav_2_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Defensive Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Defensive Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unreachable-defensive-guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unreachable Defensive Guard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_14" id="__nav_2_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library Usage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Library Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wrong-tool-for-job/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wrong Tool for Job
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-Cutting Notes
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cross-Cutting Notes
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About These Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/ai-pedagogical-bias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Pedagogical Bias
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/same-project-knows-right-pattern/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Same Project Knows Right Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/codified-guidance-is-insufficient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Codified Guidance Is Insufficient
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/surface-failure-modes-explicitly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Surface Failure Modes Explicitly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/defensive-choice-with-justifying-comment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Defensive Choice with Justifying Comment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes/partial-fix-propagation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Partial Fix Propagation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#code-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evidence-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evidence / incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-cues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection cues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="string-built-sql">String-Built SQL<a class="headerlink" href="#string-built-sql" title="Permanent link">&para;</a></h1>
+<h2 id="code-example">Code example<a class="headerlink" href="#code-example" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">policy_lookup</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Tool function called by LangGraph agent.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">db_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM policies WHERE id = &#39;</span><span class="si">{</span><span class="n">policy_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</code></pre></div>
+<p>The function looks fluent. An f-string interpolates <code>policy_id</code> into a SQL string. The query runs. For tested values (e.g., <code>policy_id = "P-12345"</code>), the result is correct.</p>
+<p>The defect is invisible until <code>policy_id</code> is attacker-controlled. With <code>policy_id = "' OR 1=1 --"</code>, the constructed SQL becomes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">policies</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="c1">--&#39;</span>
+</code></pre></div>
+<p>— the predicate is now tautological; the query returns <em>every</em> row. With <code>policy_id = "'; DROP TABLE policies; --"</code>, depending on the database backend and execution mode, the entire <code>policies</code> table can be deleted. This is CWE-89 / OWASP A03:2021 (Injection) — the canonical SQL injection.</p>
+<p>The fix is the canonical parameterized-query idiom:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">policy_lookup</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">AgentState</span><span class="p">,</span> <span class="n">policy_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">db_conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM policies WHERE id = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">policy_id</span><span class="p">,))</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="k">return</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+</code></pre></div>
+<p>The <code>%s</code> placeholder is <em>not</em> string interpolation — it's a parameter marker that the database driver binds separately, ensuring <code>policy_id</code> is treated as data, not as SQL syntax.</p>
+<p>The pattern has several visible sub-shapes in captured specimens:</p>
+<ul>
+<li><strong>Agent-tool-surface SQL injection.</strong> A LangGraph or similar agent's tool function builds SQL from values reachable from the agent's state. The trust boundary is <em>user → agent → tool function → SQL</em>. AI-generated agent tools commonly produce f-string SQL because the tool function's local context favors fluent string construction over parameterized binding. Captured in digvijaysai29/agentic-insurance#1 (production multi-agent insurance system with explicit "built with Claude" branding; SQL injection in <code>tools/policy_lookup.py</code> and <code>tools/claim_history.py</code>).</li>
+<li><strong>Prompt-injection-induced SQL injection.</strong> An AI coding tool (Aider) was initially producing safe parameterized SQL. Attacker-supplied "team coding standard" reframed unsafe string formatting as the project's standard. The AI accepted the guidance, rewrote safe code into unsafe code, <em>and generalized the unsafe pattern to a new login function in the same workflow</em>. Captured in Aider-AI/aider#5077. This is a meta-shape: AI coding tools themselves can be subverted into producing the pattern.</li>
+<li><strong>Schema-blind f-string with three independent interpolation channels.</strong> A SQL-building function takes three parameters (<code>fields</code>, <code>table_name</code>, <code>start_date</code>), interpolates all three via f-string, and treats them as interchangeable. The schema-aware fix differs per channel: parameterized binding for <em>values</em>, allow-list validation for <em>identifiers</em> (column/table names cannot be parameterized). Captured in jackyideal/AlphaTeam (<code>get_data_by_sql</code> in a quant-trading platform; HIGH severity; reproduction with <code>start_date = "20200101' OR 1=1 --"</code> returns unfiltered rows).</li>
+<li><strong>Helper-function with concatenation in WHERE clause.</strong> The Chaudhry-Adill/hrms case (supplementary): <code>search_faq</code> endpoint builds a WHERE clause by joining a list of condition strings and interpolates that into the SQL template. Values are parameterized, but the <em>condition list itself</em> is concatenated. Future refactors that append user-controlled raw text become injection vectors.</li>
+</ul>
+<p>All sub-shapes share the same root mechanism: the model produced SQL by string construction (f-string, <code>.format()</code>, <code>+</code> concatenation) when the database driver's parameter-binding API was available and would have been correct.</p>
+<h2 id="mechanism">Mechanism<a class="headerlink" href="#mechanism" title="Permanent link">&para;</a></h2>
+<p>A language model generates SQL-touching code from a local context that contains:</p>
+<ul>
+<li>A connection / cursor object (or ORM session)</li>
+<li>A SQL string template to execute</li>
+<li>Values to inject into the template</li>
+</ul>
+<p>The model has seen <em>both</em> fluent string-construction patterns <em>and</em> parameterized-query patterns in its training corpus:</p>
+<ul>
+<li><strong>Fluent / defective</strong>: <code>cursor.execute(f"SELECT * FROM users WHERE name LIKE '%{q}%'")</code> — readable, idiomatic-looking for f-string-era Python.</li>
+<li><strong>Parameterized / correct</strong>: <code>cursor.execute("SELECT * FROM users WHERE name LIKE %s", ('%' + q + '%',))</code> — slightly less readable; requires knowing the database driver's parameter style (<code>%s</code> for psycopg, <code>?</code> for sqlite3, named for SQLAlchemy).</li>
+</ul>
+<p>The defective shape is over-represented per-token in three corpus segments:</p>
+<p><strong>Tutorial code that demonstrates SQL queries.</strong> Python SQL tutorials use string-formatted queries because the example focuses on <em>what SQL is</em>, not on <em>how to safely parameterize it</em>. The "how to do SQL in Python" search produces many tutorials with f-string examples. The "how to prevent SQL injection" search is a separate Q&amp;A with its own corpus that the model has also seen — but the tutorial corpus is heavier per-token.</p>
+<p><strong>f-string adoption (PEP 498) shifted Python's idiom.</strong> Pre-2016 Python tutorials used <code>%</code>-style or <code>.format()</code> for string interpolation. Post-2016 tutorials use f-strings. The SQL-string-construction corpus inherited the f-string shift. The result: modern Python tutorials almost universally use f-string SQL when demonstrating queries. The model's <em>modern</em> prior is f-string-SQL-heavy.</p>
+<p><strong>One-liner-with-side-effect SQL.</strong> <code>cursor.execute(f"SELECT ... {x}")</code> is a one-line side effect that fits the fluent shape. The principled alternative requires <em>two</em> arguments to <code>execute()</code> (the SQL template and the parameter tuple), which the model produces less fluently. Token-level prediction favors the one-liner.</p>
+<p>There are also explicit <em>warnings</em> in the corpus — bandit's B608, OWASP guidance, Python security blogs. The model has seen them. What the model does not reliably do during local generation is <em>select</em> the parameterized form when producing a SQL call. The corpus's tutorial weight overrides the warning weight at the per-token decision point.</p>
+<p>Three concrete failure paths are visible in the captured specimens:</p>
+<p><strong>Path 1: Agent-tool-surface boundary injection.</strong> digvijaysai29/agentic-insurance has SQL injection in <code>tools/policy_lookup.py</code> and <code>tools/claim_history.py</code> — tool functions called by LangGraph agents. The trust boundary is <em>user → agent state → tool function → SQL</em>. The CLAUDE.md (1166 bytes) prescribes "No Hallucinations: Agents must use tools for all data retrieval" but is silent on SQL injection at the tool surface. The "Corridor security analysis" audit identifies CWE-89 / OWASP A03:2021. The defect surface is the <em>high-trust-boundary</em> shape — agent tool functions are where user input flows through the trust boundary into SQL.</p>
+<p><strong>Path 2: Prompt-injection-induced rewrite.</strong> Aider-AI/aider#5077 documents a security-relevant meta-finding: in a validated retest, Aider initially produced safe parameterized SQL, was presented with attacker-supplied "team coding standard" guidance favoring string formatting, <em>accepted</em> the guidance, and rewrote the safe SQL into unsafe SQL — <em>and generalized the unsafe pattern</em> to a new login function in the same workflow. The mechanism here is <em>prompt-injection-driven</em>, distinct from the corpus-fluency-driven default shape, but produces the same defect. The audit's framing: <em>"Aider should resist attacker-supplied or repository-supplied coding guidance that explicitly downgrades safe SQL handling to unsafe string interpolation."</em></p>
+<p><strong>Path 3: Schema-blind three-channel interpolation.</strong> jackyideal/AlphaTeam's <code>get_data_by_sql</code> interpolates <code>fields</code>, <code>table_name</code>, and <code>start_date</code> all via f-string. The audit's worked attack: <code>start_date = "20200101' OR 1=1 --"</code> produces SQL that SQLite parses and executes, returning unfiltered rows. The fix is <em>three different defenses</em> (allow-list for column/table identifiers, parameterized binding for values) — the model produced one defense (none) for all three channels because it treated them as interchangeable string-interpolation slots.</p>
+<p>This pattern is <strong>AI-amplified, not AI-exclusive</strong>. Human Python programmers write f-string SQL constantly — particularly beginners, particularly in scripts, particularly when prototyping. The AI-amplified differential rests on:</p>
+<ol>
+<li><strong>Agent-tool-surface concentration</strong>: AI-generated agent systems produce f-string SQL at the highest-trust-boundary points (the user-facing tool surface). The defect's blast radius is largest exactly where the AI produces it most.</li>
+<li><strong>Prompt-injection vulnerability</strong>: AI coding tools can be <em>steered</em> to produce SQL injection via adversarial project context (the Aider specimen). Human developers don't have an analogous failure mode.</li>
+<li><strong>Coexistence with other AI-typical patterns</strong>: agent tool functions paired with <code>except Exception: pass</code> swallow the SQL error; the injection succeeds silently. Cross-link to <a href="../swallowed-exceptions/"><code>swallowed-exceptions</code></a>.</li>
+<li><strong>CLAUDE.md / AGENTS.md don't prevent it</strong>: the digvijaysai29 project has CLAUDE.md with coding standards; the SQL injection slipped through because the standards address agent-loop hygiene without explicit security rules at the tool boundary.</li>
+</ol>
+<h2 id="evidence-incident">Evidence / incident<a class="headerlink" href="#evidence-incident" title="Permanent link">&para;</a></h2>
+<p>Three captured specimens covering distinct sub-shapes and AI-authorship signals. Detailed specimen notes are not included in the public repository.</p>
+<ul>
+<li><strong><a href="https://github.com/digvijaysai29/agentic-insurance/issues/1">digvijaysai29/agentic-insurance#1</a></strong> — agent-tool-surface SQL injection in a Production-ready multi-agent insurance system. CLAUDE.md (1166 bytes); project description explicitly names <em>"built with LangGraph, FastAPI, and Claude"</em>. Affected files: <code>tools/policy_lookup.py</code>, <code>tools/claim_history.py</code>. Audit framework: "Corridor security analysis." References CWE-89, OWASP A03:2021.</li>
+<li><strong><a href="https://github.com/Aider-AI/aider/issues/5077">Aider-AI/aider#5077</a></strong> — prompt-injection-induced SQL injection. AI coding tool (Aider) rewrote safe parameterized SQL into unsafe f-string SQL after accepting attacker-supplied "team coding standard." Generalized the unsafe pattern to a new login function. Validated retest with <code>gpt-4o-mini</code> (whole-edit format). Captures the meta-shape: AI tools themselves are subvertable.</li>
+<li><strong><a href="https://github.com/jackyideal/AlphaTeam">jackyideal/AlphaTeam</a></strong> — schema-blind three-channel f-string SQL. <code>AlphaFin/indicators/db_utils.py:41-62</code> interpolates <code>fields</code>, <code>table_name</code>, and <code>start_date</code> directly. Reproducible attack with <code>start_date = "20200101' OR 1=1 --"</code> returns unfiltered rows. HIGH severity. <em>AI-authorship of the underlying code is inferred (agent-tool-surface domain, future-driven framing) rather than confirmed.</em></li>
+</ul>
+<p>Three different sub-shapes (agent-tool-surface / prompt-injection-induced / schema-blind-three-channel), three different defect surfaces (LangGraph agent tools / AI coding tool subversion / quant-trading agent-tool-future-surface).</p>
+<p>Supplementary references:</p>
+<ul>
+<li><strong><a href="https://github.com/Chaudhry-Adill/hrms">Chaudhry-Adill/hrms</a></strong> — CRITICAL SQL injection via f-string WHERE clause in helpdesk FAQ search. Fork of frappe/hrms with CLAUDE.md (5153 bytes). The values are parameterized but the WHERE-clause condition list is concatenated — a partial-defense shape.</li>
+<li><strong><a href="https://github.com/BDB-Labs/TruePresenceESE">BDB-Labs/TruePresenceESE</a></strong> — "f-string SQL construction is a SQL injection vector" in <code>api/auth.py</code>. Audit-label-driven finding.</li>
+<li><strong><a href="https://github.com/startreedata/mcp-pinot/issues/90">startreedata/mcp-pinot#90</a></strong> — Apache Pinot MCP server's <code>read_query</code> tool only validates <code>SELECT</code> prefix; raw SQL flows from MCP client to Pinot with weak input sanitization. Adjacent shape — <em>trust-boundary-too-wide</em> rather than f-string-construction.</li>
+<li><strong><a href="https://github.com/laichunpongben/magi">laichunpongben/magi</a></strong> — SQL injection via f-string table/schema interpolation in <code>knowledge_base.py</code>. AI knowledge-base project.</li>
+</ul>
+<p>Bandit has rule <strong>B608</strong> (<code>hardcoded_sql_expressions</code>); semgrep has equivalent rules; OWASP has explicit guidance. Widely-adopted community lint rules; the AI-amplified observation is the agent-tool-surface concentration.</p>
+<h2 id="detection-cues">Detection cues<a class="headerlink" href="#detection-cues" title="Permanent link">&para;</a></h2>
+<p>What to look for in a diff or completion:</p>
+<ul>
+<li><strong><code>cursor.execute(f"...")</code> / <code>cursor.execute(sql.format(...))</code> / <code>cursor.execute("..." + var + "...")</code></strong> — any string-built SQL in the execute call. The most direct signal.</li>
+<li><strong>f-string SQL in agent tool functions.</strong> Files in <code>tools/</code>, <code>agents/*/tools/</code>, or similarly-named directories of LangGraph / LangChain / agentic-framework projects. The trust boundary makes this the highest-stakes surface.</li>
+<li><strong>SQL-building helper functions that take user-derivable parameters.</strong> A function that takes <code>query_text</code>, <code>user_input</code>, <code>filter_value</code>, or similar and constructs SQL by interpolation. Even if today's caller passes safe constants, the function is reachable from user-controlled paths.</li>
+<li><strong>Multi-channel interpolation where channels have different defense needs.</strong> A SQL-building function that takes both <em>identifiers</em> (column names, table names) and <em>values</em> — the identifiers cannot use parameter binding (SQL syntax forbids it) and need allow-list validation; the values must use parameter binding. If both are f-stringed, the function is schema-blind.</li>
+<li><strong><code>f"... '{var}' ..."</code> patterns</strong> (single-quoted f-string interpolation inside SQL). The single quotes are a strong signal the model is trying to "quote" the value into the SQL — exactly the form that breaks under any value containing a <code>'</code> character (whether attacker-controlled or just <code>O'Brien</code>).</li>
+<li><strong>AGENTS.md / CLAUDE.md that mention security/SQL but the code doesn't reflect it.</strong> Codified-guidance-is-insufficient applied to the SQL-injection surface.</li>
+<li><strong>Attacker-supplied "team coding standards" / "style guides" that override parameterized-query defaults.</strong> The Aider sub-shape — if a repo contains a coding-standard file that explicitly prefers string-formatted SQL, AI tools may take that at face value.</li>
+</ul>
+<p>The diagnostic question for any SQL-touching code: <em>if a value flowing into this SQL contained <code>'</code>, <code>"</code>, <code>;</code>, <code>--</code>, or <code>OR 1=1</code>, what would happen?</em> If parameter-bound, the value is treated as literal text — safe. If f-string-interpolated, the value is treated as SQL syntax — injection-prone. The cure is mechanical: use the database driver's parameter style (<code>%s</code>, <code>?</code>, named) instead of string construction.</p>
+<p>Bandit <code>B608</code> catches the pattern mechanically. Adding it to CI is the structural cure; documentation alone is observably insufficient.</p>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<p><strong>Category <code>security</code>.</strong> The category covers patterns where defects produce <em>security</em> failures (data exfiltration, data destruction, authentication bypass).</p>
+<p><strong>Difficulty rated <code>low</code>.</strong> Spotting <code>f"..."</code> inside <code>cursor.execute(...)</code> is visually trivial. Bandit B608 catches it mechanically. The reason this is in the taxonomy is <em>defect surface</em> (agent-tool-surface concentration) and <em>AI-meta-shape</em> (prompt-injection-induced rewrite), not difficulty. Once a reader knows to look at SQL-touching code in agent tools, the audit is mechanical.</p>
+<p><strong>The pattern is AI-amplified, not AI-exclusive.</strong> Restated: every developer who has written SQL in Python has written an f-string SQL query at some point. The AI-amplified differential rests on agent-tool-surface concentration (the highest-trust-boundary surface), prompt-injection vulnerability of AI coding tools, and codified-guidance-insufficient at the SQL-injection-prevention layer.</p>
+<p><strong>False-positive shapes.</strong> Be cautious before flagging:</p>
+<ul>
+<li><em>Truly-trusted internal constants.</em> <code>cursor.execute(f"SELECT COUNT(*) FROM {TABLE_NAME}")</code> where <code>TABLE_NAME</code> is a module-level constant or an enum value validated at startup. The cue is whether the interpolated value can be traced back to user input.</li>
+<li><em>Identifier interpolation that genuinely requires it.</em> Column names and table names <em>cannot</em> be passed via parameters (SQL syntax). The fix is allow-list validation before interpolation, not parameter binding. Flagging the f-string here would be technically correct but the cure differs from the value-injection case.</li>
+<li><em>ORM-built queries that use <code>format()</code> internally.</em> SQLAlchemy and similar ORMs sometimes construct SQL via templating but parameter-bind the values separately. Verify the underlying execute uses parameter binding.</li>
+<li><em>SQL templates loaded from external files / stored procedures.</em> The interpolation may be happening elsewhere; the visible code may just be the wrapper. Check the full data flow.</li>
+<li><em>Test fixtures that intentionally construct SQL strings</em> for SQL-parsing / SQL-syntax tests. The code's purpose is to exercise SQL, not to execute it against real data.</li>
+</ul>
+<p><strong>Mutation operator hint.</strong> A deterministic mutation that introduces the pattern from clean code:</p>
+<ul>
+<li>Replace <code>cursor.execute("SELECT * FROM t WHERE id = %s", (id,))</code> with <code>cursor.execute(f"SELECT * FROM t WHERE id = '{id}'")</code></li>
+<li>Replace <code>cursor.execute(sql_template, params)</code> with <code>cursor.execute(sql_template.format(**params))</code></li>
+<li>Replace ORM-built query with manual f-string SQL in a "performance optimization" comment</li>
+<li>Replace parameterized identifier validation (allow-list) with raw f-string interpolation</li>
+<li>Take an agent tool function that uses parameterized SQL and rewrite under "team coding standard" reframing (the Aider meta-sub-shape)</li>
+</ul>
+<p>These compose with <a href="../swallowed-exceptions/"><code>swallowed-exceptions</code></a> — f-string SQL inside <code>try: ...; except Exception: pass</code> silently swallows the SQL-syntax error that would normally surface from a malformed payload, allowing injection attempts to fail quietly. Also composes with <a href="../assert-for-runtime-validation/"><code>assert-for-runtime-validation</code></a> — <code>assert sanitized(input)</code> followed by f-string SQL is stripped under <code>-O</code>, so the sanitization vanishes while the injection-prone SQL remains.</p>
+<p><strong>Connection to <a href="../../notes/ai-pedagogical-bias/"><code>ai-pedagogical-bias</code></a> note.</strong> Modern Python tutorials (FastAPI, LangChain, LangGraph examples) use f-string SQL extensively in their demonstration code because the example focuses on <em>what</em> the API does. The model inherits the tutorial style; production code under user input becomes injection-prone. This is the <em>security-stakes</em> version of the AI-pedagogical-bias mechanism — same generation pattern, harder consequences.</p>
+<p><strong>Connection to <a href="../../notes/codified-guidance-is-insufficient/"><code>codified-guidance-is-insufficient</code></a> note.</strong> The digvijaysai29 specimen has CLAUDE.md coding standards focused on agent-loop hygiene; SQL injection slipped through because the standards don't explicitly address security at the tool boundary. The Chaudhry-Adill specimen is a fork of frappe/hrms with CLAUDE.md; the SQL injection is in inherited code but the AI-driven audit caught it. Bandit B608 + OWASP guidance + project-level CLAUDE.md / AGENTS.md still don't prevent AI from producing the pattern at agent tool surfaces.</p>
+<p><strong>Connection to prompt-injection as a new defect-introduction vector.</strong> The Aider specimen is methodologically important: AI coding tools accept "team coding standards" from project context and treat them as authoritative. An attacker who can place a CONTRIBUTING.md / CODING_STANDARDS.md / CLAUDE.md / AGENTS.md in a repository can steer the AI's generation to produce <em>known-vulnerable</em> patterns. This is a defense-in-depth observation that crosses the boundary between <em>AI-generated-defect-classes</em> (the taxonomy's main framing) and <em>AI-tool-security-models</em> (an adjacent concern).</p>
+<p><strong>Connection to deployment-context cluster.</strong> This entry joins <a href="../missing-network-timeout/"><code>missing-network-timeout</code></a>, <a href="../assert-for-runtime-validation/"><code>assert-for-runtime-validation</code></a>, <a href="../resource-leak-no-context-manager/"><code>resource-leak-no-context-manager</code></a>, <a href="../async-await-mismatch/"><code>async-await-mismatch</code></a>, <a href="../print-instead-of-logging/"><code>print-instead-of-logging</code></a>, and <a href="../f-string-in-logger-call/"><code>f-string-in-logger-call</code></a> in the cluster of patterns where the defect's blast radius is largest in deployment contexts (long-running services, agent tool surfaces, production servers) — exactly where AI-generated code is being shipped now. The cure across the cluster is to encode deployment-context awareness in CI / lint rather than in documentation.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.sections", "navigation.expand", "navigation.top", "toc.follow", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
